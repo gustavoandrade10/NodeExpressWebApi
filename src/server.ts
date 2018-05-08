@@ -7,6 +7,7 @@ import * as helmet from 'helmet';
 import * as logger from 'morgan';
 import { StudentController } from './Controller/Controllers/StudentController';
 import { Sequelize } from 'sequelize-typescript';
+import { attachControllers } from '@decorators/express';
 
 //Import Controllers
 
@@ -38,6 +39,7 @@ class Server {
         });
 
         // express middleware
+        this.app.use(require('express-promise')());
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(bodyParser.json());
         this.app.use(cookieParser());
@@ -60,10 +62,11 @@ class Server {
     // application routes
     routes(): void {
         const router: express.Router = express.Router();
-        const studentController = new StudentController();
 
-        this.app.use('/', router);
-        this.app.use('/api/v1/users', studentController.router);
+        attachControllers(router, [StudentController]);
+        
+        this.app.use('/api/v1', router);
+
     }
 }
 
