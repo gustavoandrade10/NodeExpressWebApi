@@ -1,4 +1,4 @@
-import { UsuarioPortal } from "../models/UsuarioPortal";
+import { UsuarioPortal } from "../../Models/UsuarioPortal";
 
 
 export class StudentRepository {

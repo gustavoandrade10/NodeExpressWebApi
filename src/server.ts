@@ -34,7 +34,7 @@ class Server {
             dialect: config.dialect,
             username: config.username,
             password: config.password,
-            modelPaths: [__dirname + '/Repository/models']
+            modelPaths: [__dirname + '/Models']
         });
 
         // express middleware
