@@ -26,7 +26,6 @@ class Server {
     // application config
     config(): void {
 
-
         let env = process.env.NODE_ENV || 'development';
         let config = require(__dirname + '/Repository/config/config.json')[env];
 

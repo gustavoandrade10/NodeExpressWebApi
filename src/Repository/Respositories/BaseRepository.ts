@@ -24,15 +24,16 @@ export class BaseRepository<T extends Model<T>> implements IBaseRepository<T>{
         .catch(erro => erro);
     }
 
+    async Update(id: number, model: T): Promise<T> {
+        return await this.model.update(model,<any>{where:{ id: id}})
+        .then(data => data)
+        .catch(erro => erro);
+    }
+
     async Delete(id: number): Promise<T> {
         return await this.model.destroy(<any>{where:{ id: id}})
         .then(data => data)
         .catch(erro => erro);
     }
 
-    async Update(id: number, model: T): Promise<T> {
-        return await this.model.update(model,<any>{where:{ id: id}})
-        .then(data => data)
-        .catch(erro => erro);
-    }
 }

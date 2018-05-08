@@ -53,16 +53,67 @@ export class StudentBusiness implements IBaseBusiness {
         });
     }
 
-    insert(model: any): BaseResponse {
-        throw new Error("Method not implemented.");
+    insert(model: any): Promise<BaseResponse> {
+        this._response = new BaseResponse();
+
+        return this._repository.Insert(model).then(response => {
+
+            if (response) {
+                this._response.success = true;
+                this._response.data = response;
+            }
+            else {
+                this._response.success = false;
+            }
+
+            return this._response;
+        }).catch(error => {
+
+            this._response.success = false;
+            return this._response;
+        });
     }
 
-    update(model: any): BaseResponse {
-        throw new Error("Method not implemented.");
+    update(id: number, model: any): Promise<BaseResponse> {
+        this._response = new BaseResponse();
+
+        return this._repository.Update(id, model).then(response => {
+
+            if (response) {
+                this._response.success = true;
+                this._response.data = response;
+            }
+            else {
+                this._response.success = false;
+            }
+
+            return this._response;
+        }).catch(error => {
+
+            this._response.success = false;
+            return this._response;
+        });
     }
 
-    delete(id: number): BaseResponse {
-        throw new Error("Method not implemented.");
+    delete(id: number): Promise<BaseResponse> {
+        this._response = new BaseResponse();
+
+        return this._repository.Delete(id).then(response => {
+
+            if (response) {
+                this._response.success = true;
+                this._response.data = response;
+            }
+            else {
+                this._response.success = false;
+            }
+
+            return this._response;
+        }).catch(error => {
+
+            this._response.success = false;
+            return this._response;
+        });
     }
 
 }
