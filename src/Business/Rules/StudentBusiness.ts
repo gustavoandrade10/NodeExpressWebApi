@@ -14,7 +14,7 @@ export class StudentBusiness implements IBaseBusiness {
 
         this._response = new BaseResponse();
 
-        return this._repository.listAll().then(response => {
+        return this._repository.ListAll().then(response => {
             if (response) {
                 this._response.success = true;
                 this._response.data = response;

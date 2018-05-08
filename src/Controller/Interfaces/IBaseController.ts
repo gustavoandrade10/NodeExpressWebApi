@@ -2,16 +2,11 @@ import { Request, Response} from 'express';
 
 export interface IBaseController {
 
-    listAll(req: Request, res: Response): void;
-
-    listByID(req: Request, res: Response): void;
-
-    insert(req: Request, res: Response): void;
-
-    update(req: Request, res: Response): void;
-
-    delete(req: Request, res: Response): void;
-
+    ListAll(req: Request, res: Response): void;
+    ListByID(req: Request, res: Response): void;
+    Insert(req: Request, res: Response): void;
+    Update(req: Request, res: Response): void;
+    Delete(req: Request, res: Response): void;
     routes(): void;
 
 }

@@ -1,21 +1,11 @@
 import { UsuarioPortal } from "../../Models/UsuarioPortal";
+import { BaseRepository } from "./BaseRepository";
 
 
-export class StudentRepository {
+export class StudentRepository extends BaseRepository<UsuarioPortal>{
 
     constructor() {
+        super(UsuarioPortal);
     }
 
-    async listAll() {
-        return await UsuarioPortal.findAll()
-            .then(data => data)
-            .catch(erro => erro);
-    }
-
-    async listByID(id: number) {
-        return await UsuarioPortal.findOne({
-            where: { id: id }
-        }).then(data => data)
-        .catch(erro => erro);
-    }
 }

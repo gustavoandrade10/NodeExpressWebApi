@@ -35,6 +35,8 @@ function onError(error: NodeJS.ErrnoException): void {
         default:
             throw error;
     }
+
+    console.log(error)
 }
 
 function onListening(): void {
