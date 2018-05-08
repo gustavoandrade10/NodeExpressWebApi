@@ -1,17 +1,17 @@
 import { Response, Params, Controller, Get, Post, Body, Put, Delete } from '@decorators/express';
 import { Injectable } from '@decorators/di';
 import { IBaseController } from '../Interfaces/IBaseController';
-import { StudentBusiness } from '../../Business/Rules/StudentBusiness';
-import { UsuarioPortal } from '../../Models/UsuarioPortal';
+import { ExampleProject } from '../../Models/ExampleProject';
+import { ExampleProjectBusiness } from '../../Business/Rules/ExampleProjectBusiness';
 
-@Controller('/users')
+@Controller('/projects')
 @Injectable()
-export class StudentController implements IBaseController<UsuarioPortal> {
+export class ExampleProjectController implements IBaseController<ExampleProject> {
 
-  currentBusinnes: StudentBusiness;
+  currentBusinnes: ExampleProjectBusiness;
 
   constructor() {
-    this.currentBusinnes = new StudentBusiness();
+    this.currentBusinnes = new ExampleProjectBusiness();
   }
 
   @Get('/')
@@ -25,12 +25,12 @@ export class StudentController implements IBaseController<UsuarioPortal> {
   }
 
   @Post('/')
-  Insert(@Response() res, @Body() model: UsuarioPortal) {
+  Insert(@Response() res, @Body() model: ExampleProject) {
     res.send(this.currentBusinnes.Insert(model));
   }
 
   @Put('/:id')
-  Update(@Response() res, @Params('id') id: number, @Body() model: UsuarioPortal) {
+  Update(@Response() res, @Params('id') id: number, @Body() model: ExampleProject) {
     res.send(this.currentBusinnes.Update(id, model));
   }
 

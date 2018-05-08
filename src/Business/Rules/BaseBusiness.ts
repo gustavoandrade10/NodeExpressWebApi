@@ -6,7 +6,7 @@ import { BaseRepository } from "../../Repository/Respositories/BaseRepository";
 export class BaseBusiness<T extends Model<T>> implements IBaseBusiness<T> {
     
     private _response: BaseResponse;
-    constructor(private _repository: BaseRepository<T>) { }
+    constructor(protected _repository: BaseRepository<T>) { }
 
     ListAll(): Promise<BaseResponse> {
 

@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "root",
-    "database": "portalempregot02",
+    "database": "db_newa",
     "host": "localhost",
     "dialect": "mysql"
   },

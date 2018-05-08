@@ -6,11 +6,12 @@ import * as express from 'express';
 import * as helmet from 'helmet';
 import * as logger from 'morgan';
 import * as expressPromise from 'express-promise';
-import { StudentController } from './Controller/Controllers/StudentController';
 import { Sequelize } from 'sequelize-typescript';
 import { attachControllers } from '@decorators/express';
 
 //Import Controllers
+import { ExampleEmployeeController } from './Controller/Controllers/ExampleEmployeeController';
+import { ExampleProjectController } from './Controller/Controllers/ExampleProjectController';
 
 class Server {
 
@@ -35,7 +36,8 @@ class Server {
             dialect: config.dialect,
             username: config.username,
             password: config.password,
-            modelPaths: [__dirname + '/Models']
+            modelPaths: [__dirname + '/Models'],
+            operatorsAliases: false
         });
 
         // express middleware
@@ -63,7 +65,7 @@ class Server {
     routes(): void {
         const router: express.Router = express.Router();
 
-        attachControllers(router, [StudentController]);
+        attachControllers(router, [ExampleEmployeeController, ExampleProjectController]);
         
         this.app.use('/api/v1', router);
 
