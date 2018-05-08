@@ -1,9 +1,9 @@
 import { BaseResponse } from "../Utilities/BaseResponse";
 
-export interface IBaseBusiness{
-    listAll(): Promise<BaseResponse>;
-    listByID(id: number): Promise<BaseResponse>;
-    insert(model: any): Promise<BaseResponse>;
-    update(id:number, model: any):  Promise<BaseResponse>;
-    delete(id: number): Promise<BaseResponse>; 
+export interface IBaseBusiness<T>{
+    ListAll(): Promise<BaseResponse>;
+    ListByID(id: number): Promise<BaseResponse>;
+    Insert(model: T): Promise<BaseResponse>;
+    Update(id:number, model: T):  Promise<BaseResponse>;
+    Delete(id: number): Promise<BaseResponse>; 
 }

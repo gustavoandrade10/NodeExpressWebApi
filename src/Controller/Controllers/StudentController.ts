@@ -16,27 +16,27 @@ export class StudentController implements IBaseController<UsuarioPortal> {
 
   @Get('/')
   ListAll(@Response() res) {
-    res.send(this.currentBusinnes.listAll());
+    res.send(this.currentBusinnes.ListAll());
   }
 
   @Get('/:id')
   ListByID(@Response() res, @Params('id') id: number) {
-    res.send(this.currentBusinnes.listByID(id));
+    res.send(this.currentBusinnes.ListByID(id));
   }
 
   @Post('/')
   Insert(@Response() res, @Body() model: UsuarioPortal) {
-    res.send(this.currentBusinnes.insert(model));
+    res.send(this.currentBusinnes.Insert(model));
   }
 
   @Put('/:id')
   Update(@Response() res, @Params('id') id: number, @Body() model: UsuarioPortal) {
-    res.send(this.currentBusinnes.update(id, model));
+    res.send(this.currentBusinnes.Update(id, model));
   }
 
   @Delete('/:id')
   Delete(@Response() res, @Params('id') id: number) {
-    res.send(this.currentBusinnes.delete(id));
+    res.send(this.currentBusinnes.Delete(id));
   }
 
 }
