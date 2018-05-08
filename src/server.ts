@@ -5,6 +5,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as helmet from 'helmet';
 import * as logger from 'morgan';
+import * as expressPromise from 'express-promise';
 import { StudentController } from './Controller/Controllers/StudentController';
 import { Sequelize } from 'sequelize-typescript';
 import { attachControllers } from '@decorators/express';
@@ -39,7 +40,7 @@ class Server {
         });
 
         // express middleware
-        this.app.use(require('express-promise')());
+        this.app.use(expressPromise());
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(bodyParser.json());
         this.app.use(cookieParser());
