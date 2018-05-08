@@ -6,6 +6,7 @@ import * as express from 'express';
 import * as helmet from 'helmet';
 import * as logger from 'morgan';
 import { StudentController } from './Controller/Controllers/StudentController';
+import { Sequelize } from 'sequelize-typescript';
 
 //Import Controllers
 
@@ -23,6 +24,18 @@ class Server {
     // application config
     config(): void {
 
+
+        let env = process.env.NODE_ENV || 'development';
+        let config = require(__dirname + '/Repository/config/config.json')[env];
+
+        new Sequelize({
+            host: config.host,
+            database: config.database,
+            dialect: config.dialect,
+            username: config.username,
+            password: config.password,
+            modelPaths: [__dirname + '/Repository/models']
+        });
 
         // express middleware
         this.app.use(bodyParser.urlencoded({ extended: true }));

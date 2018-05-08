@@ -4,10 +4,7 @@
     "password": "root",
     "database": "db_10conta_dev",
     "host": "localhost",
-    "dialect": "mysql",
-    "define": {
-      "timestamps": false
-    }
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",

@@ -1,4 +1,5 @@
-import * as db from '../models/';
+import { UsuarioPortal } from "../models/UsuarioPortal";
+
 
 export class StudentRepository {
 
@@ -6,13 +7,13 @@ export class StudentRepository {
     }
 
     async listAll() {
-        return await db.usuario_portal.findAll()
+        return await UsuarioPortal.findAll()
             .then(data => data)
             .catch(erro => erro);
     }
 
     async listByID(id: number) {
-        return await db.usuario_portal.findOne({
+        return await UsuarioPortal.findOne({
             where: { id: id }
         }).then(data => data)
         .catch(erro => erro);
