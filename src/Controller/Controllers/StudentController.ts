@@ -4,20 +4,24 @@ import { StudentBusiness } from '../../Business/Rules/StudentBusiness';
 
 export class StudentController implements IBaseController {
   public router: Router;
-  public currentBusinnes: StudentBusiness
-  
+  private _currentBusinnes: StudentBusiness
+
   constructor() {
-    this.currentBusinnes = new StudentBusiness();
+    this._currentBusinnes = new StudentBusiness();
     this.router = Router();
     this.routes();
   }
 
-  listAll = (req: Request, res: Response) =>{
-     this.currentBusinnes.listAll().then(response => res.json(response));
+  listAll = (req: Request, res: Response) => {
+    return this._currentBusinnes.listAll()
+      .then(response => res.status(200).json(response))
+      .catch(error => res.status(500).json(error));
   }
-  
-  listByID(req: Request, res: Response): void {
-    throw new Error("Method not implemented.");
+
+  listByID = (req: Request, res: Response) => {
+    return this._currentBusinnes.listByID(req.params.id)
+    .then(response => res.status(200).json(response))
+    .catch(error => res.status(500).json(error));
   }
 
   insert(req: Request, res: Response): void {
@@ -34,6 +38,7 @@ export class StudentController implements IBaseController {
 
   routes() {
     this.router.get('/', this.listAll);
+    this.router.get('/:id', this.listByID);
   }
 
 }

@@ -2,9 +2,9 @@ import { BaseResponse } from "../Utilities/BaseResponse";
 
 export interface IBaseBusiness{
 
-    listAll();
+    listAll(): Promise<BaseResponse>;
 
-    listByID(id: number): BaseResponse;
+    listByID(id: number): Promise<BaseResponse>;
 
     insert(model: any): BaseResponse;
 
