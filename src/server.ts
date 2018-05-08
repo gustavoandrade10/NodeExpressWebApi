@@ -36,7 +36,7 @@ class Server {
             dialect: config.dialect,
             username: config.username,
             password: config.password,
-            modelPaths: [__dirname + '/Models'],
+            modelPaths: [__dirname + '/Models/**'],
             operatorsAliases: false
         });
 

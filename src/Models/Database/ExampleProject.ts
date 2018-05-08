@@ -1,9 +1,9 @@
-import {Table, Column, Model, DataType, CreatedAt, UpdatedAt, ForeignKey } from 'sequelize-typescript';
+import {Table, Column, Model, DataType, CreatedAt, UpdatedAt, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { ExampleEmployee } from './ExampleEmployee';
 
 @Table({
   tableName: 'project',
-  timestamps: false
+  timestamps: true
 })
 export class ExampleProject extends Model<ExampleProject> {
 
@@ -46,4 +46,6 @@ export class ExampleProject extends Model<ExampleProject> {
   })
   id_manager: number;
 
+  @BelongsTo(() => ExampleEmployee)
+  gerentes: ExampleEmployee;
 }

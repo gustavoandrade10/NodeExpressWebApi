@@ -5,112 +5,112 @@ import { BaseRepository } from "../../Repository/Respositories/BaseRepository";
 
 export class BaseBusiness<T extends Model<T>> implements IBaseBusiness<T> {
     
-    private _response: BaseResponse;
-    constructor(protected _repository: BaseRepository<T>) { }
+    protected _baseResponse: BaseResponse;
+    constructor(private repository: BaseRepository<T>) { }
 
     ListAll(): Promise<BaseResponse> {
 
-        this._response = new BaseResponse();
+        this._baseResponse = new BaseResponse();
 
-        return this._repository.ListAll().then(response => {
+        return this.repository.ListAll().then(response => {
             if (response) {
-                this._response.success = true;
-                this._response.data = response;
+                this._baseResponse.success = true;
+                this._baseResponse.data = response;
             }
             else {
-                this._response.success = false;
+                this._baseResponse.success = false;
             }
 
-            return this._response;
+            return this._baseResponse;
         }).catch(error => {
 
-            this._response.success = false;
-            return this._response;
+            this._baseResponse.success = false;
+            return this._baseResponse;
         });
     }
 
     ListByID(id: number): Promise<BaseResponse> {
 
-        this._response = new BaseResponse();
+        this._baseResponse = new BaseResponse();
 
-        return this._repository.listByID(id).then(response => {
+        return this.repository.listByID(id).then(response => {
 
             if (response) {
-                this._response.success = true;
-                this._response.data = response;
+                this._baseResponse.success = true;
+                this._baseResponse.data = response;
             }
             else {
-                this._response.success = false;
+                this._baseResponse.success = false;
             }
 
-            return this._response;
+            return this._baseResponse;
         }).catch(error => {
 
-            this._response.success = false;
-            return this._response;
+            this._baseResponse.success = false;
+            return this._baseResponse;
         });
     }
 
     Insert(model: T): Promise<BaseResponse> {
-        this._response = new BaseResponse();
+        this._baseResponse = new BaseResponse();
 
-        return this._repository.Insert(model).then(response => {
+        return this.repository.Insert(model).then(response => {
 
             if (response) {
-                this._response.success = true;
-                this._response.data = response;
+                this._baseResponse.success = true;
+                this._baseResponse.data = response;
             }
             else {
-                this._response.success = false;
+                this._baseResponse.success = false;
             }
 
-            return this._response;
+            return this._baseResponse;
         }).catch(error => {
 
-            this._response.success = false;
-            return this._response;
+            this._baseResponse.success = false;
+            return this._baseResponse;
         });
     }
 
     Update(id: number, model: T): Promise<BaseResponse> {
-        this._response = new BaseResponse();
+        this._baseResponse = new BaseResponse();
 
-        return this._repository.Update(id, model).then(response => {
+        return this.repository.Update(id, model).then(response => {
 
             if (response) {
-                this._response.success = true;
-                this._response.data = response;
+                this._baseResponse.success = true;
+                this._baseResponse.data = response;
             }
             else {
-                this._response.success = false;
+                this._baseResponse.success = false;
             }
 
-            return this._response;
+            return this._baseResponse;
         }).catch(error => {
 
-            this._response.success = false;
-            return this._response;
+            this._baseResponse.success = false;
+            return this._baseResponse;
         });
     }
 
     Delete(id: number): Promise<BaseResponse> {
-        this._response = new BaseResponse();
+        this._baseResponse = new BaseResponse();
 
-        return this._repository.Delete(id).then(response => {
+        return this.repository.Delete(id).then(response => {
 
             if (response) {
-                this._response.success = true;
-                this._response.data = response;
+                this._baseResponse.success = true;
+                this._baseResponse.data = response;
             }
             else {
-                this._response.success = false;
+                this._baseResponse.success = false;
             }
 
-            return this._response;
+            return this._baseResponse;
         }).catch(error => {
 
-            this._response.success = false;
-            return this._response;
+            this._baseResponse.success = false;
+            return this._baseResponse;
         });
     }
 

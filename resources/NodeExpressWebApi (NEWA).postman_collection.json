@@ -1,0 +1,169 @@
+{
+	"variables": [],
+	"info": {
+		"name": "NodeExpressWebApi (NEWA)",
+		"_postman_id": "d7f40748-3c98-6f65-c6ae-afee061ce17f",
+		"description": "For examples purposes.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employee",
+			"description": "",
+			"item": [
+				{
+					"name": "Employee - ListAll",
+					"request": {
+						"url": "http://localhost:3000/api/v1/employees",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Employee - ListByID",
+					"request": {
+						"url": "http://localhost:3000/api/v1/employees/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Employee - Insert",
+					"request": {
+						"url": "http://localhost:3000/api/v1/employees",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstname\": \"Larry\",\n\t\"lastname\": \"PAGE\",\n\t\"phone\": \"936854274\",\n\t\"email\": \"larry.page@company.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Employee - Update",
+					"request": {
+						"url": "http://localhost:3000/api/v1/employees/1",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstname\": \"Bigg\",\n\t\"lastname\": \"BOSS\",\n\t\"phone\": \"936854270\",\n\t\"email\": \"big.boss@company.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Employee - Delete",
+					"request": {
+						"url": "http://localhost:3000/api/v1/employees/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"description": "",
+			"item": [
+				{
+					"name": "Projects - ListAll",
+					"request": {
+						"url": "http://localhost:3000/api/v1/projects",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Project - ListByID",
+					"request": {
+						"url": "http://localhost:3000/api/v1/projects/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Project - Insert",
+					"request": {
+						"url": "http://localhost:3000/api/v1/projects",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"CRM\",\n\t\"initial_date\": \"2015-09-14\",\n\t\"id_manager\": 5\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Project - Update",
+					"request": {
+						"url": "http://localhost:3000/api/v1/projects/1",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Google\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Project - Delete",
+					"request": {
+						"url": "http://localhost:3000/api/v1/projects/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

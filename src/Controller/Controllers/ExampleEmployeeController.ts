@@ -2,7 +2,8 @@ import { Response, Params, Controller, Get, Post, Body, Put, Delete } from '@dec
 import { Injectable } from '@decorators/di';
 import { IBaseController } from '../Interfaces/IBaseController';
 import { ExampleEmployeeBusiness } from '../../Business/Rules/ExampleEmployeeBusiness';
-import { ExampleEmployee } from '../../Models/ExampleEmployee';
+import { ExampleEmployee } from '../../Models/Database/ExampleEmployee';
+import { ExampleEmployeeRepository } from '../../Repository/Respositories/ExampleEmployeeRepository';
 
 @Controller('/employees')
 @Injectable()
@@ -11,7 +12,7 @@ export class ExampleEmployeeController implements IBaseController<ExampleEmploye
   currentBusinnes: ExampleEmployeeBusiness;
 
   constructor() {
-    this.currentBusinnes = new ExampleEmployeeBusiness();
+    this.currentBusinnes = new ExampleEmployeeBusiness(new ExampleEmployeeRepository());
   }
 
   @Get('/')

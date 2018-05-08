@@ -1,8 +1,9 @@
-import {Table, Column, Model, DataType, CreatedAt, UpdatedAt } from 'sequelize-typescript';
+import {Table, Column, Model, DataType, CreatedAt, UpdatedAt, HasMany } from 'sequelize-typescript';
+import { ExampleProject } from './ExampleProject';
 
 @Table({
   tableName: 'employee',
-  timestamps: false
+  timestamps: true
 })
 export class ExampleEmployee extends Model<ExampleEmployee> {
 
@@ -43,5 +44,8 @@ export class ExampleEmployee extends Model<ExampleEmployee> {
 
   @UpdatedAt
   updated_at: Date;
+
+  @HasMany(() => ExampleProject)
+  projects: ExampleProject[];
 
 }

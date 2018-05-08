@@ -1,4 +1,4 @@
-import { ExampleEmployee } from "../../Models/ExampleEmployee";
+import { ExampleEmployee } from "../../Models/Database/ExampleEmployee";
 import { BaseRepository } from "./BaseRepository";
 
 

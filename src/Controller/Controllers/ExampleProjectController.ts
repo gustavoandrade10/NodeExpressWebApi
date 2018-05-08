@@ -1,8 +1,9 @@
 import { Response, Params, Controller, Get, Post, Body, Put, Delete } from '@decorators/express';
 import { Injectable } from '@decorators/di';
 import { IBaseController } from '../Interfaces/IBaseController';
-import { ExampleProject } from '../../Models/ExampleProject';
+import { ExampleProject } from '../../Models/Database/ExampleProject';
 import { ExampleProjectBusiness } from '../../Business/Rules/ExampleProjectBusiness';
+import { ExampleProjectRepository } from '../../Repository/Respositories/ExampleProjectRepository';
 
 @Controller('/projects')
 @Injectable()
@@ -11,13 +12,19 @@ export class ExampleProjectController implements IBaseController<ExampleProject>
   currentBusinnes: ExampleProjectBusiness;
 
   constructor() {
-    this.currentBusinnes = new ExampleProjectBusiness();
+    this.currentBusinnes = new ExampleProjectBusiness(new ExampleProjectRepository());
   }
 
   @Get('/')
   ListAll(@Response() res) {
     res.send(this.currentBusinnes.ListAll());
   }
+
+  @Get('/managers')
+  ListAllProjectsWithManager(@Response() res) {
+    res.send(this.currentBusinnes.ListAllProjectsWithManager());
+  }
+
 
   @Get('/:id')
   ListByID(@Response() res, @Params('id') id: number) {
