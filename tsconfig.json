@@ -4,7 +4,13 @@
         "module": "commonjs",
         "target": "es5",
         "sourceMap": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "pretty": true,
+        "lib": ["es2017"],
         "allowJs": true,
+        "removeComments": false,
+      
     },
     "include": [
         "./src/**/*"

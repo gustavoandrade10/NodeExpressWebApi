@@ -2,7 +2,7 @@ import { BaseResponse } from "../Utilities/BaseResponse";
 
 export interface IBaseBusiness{
 
-    listAll(): BaseResponse;
+    listAll();
 
     listByID(id: number): BaseResponse;
 

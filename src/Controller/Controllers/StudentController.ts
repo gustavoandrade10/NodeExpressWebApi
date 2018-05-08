@@ -4,7 +4,7 @@ import { StudentBusiness } from '../../Business/Rules/StudentBusiness';
 
 export class StudentController implements IBaseController {
   public router: Router;
-  currentBusinnes: StudentBusiness
+  public currentBusinnes: StudentBusiness
   
   constructor() {
     this.currentBusinnes = new StudentBusiness();
@@ -12,8 +12,8 @@ export class StudentController implements IBaseController {
     this.routes();
   }
 
-  listAll(req: Request, res: Response){
-     res.json(this.currentBusinnes.listAll());
+  listAll = (req: Request, res: Response) =>{
+     this.currentBusinnes.listAll().then(response => res.json(response));
   }
   
   listByID(req: Request, res: Response): void {

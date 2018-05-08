@@ -13,12 +13,6 @@ export class BaseResponse {
 
 
 export class ErrorResponse {
-
-    constructor(erro?: string, message?: string){
-        this.erro = erro;
-        this.message = message;
-    }
-
     erro: string;
     message: string;
 }

@@ -1,5 +1,4 @@
 import { IBaseBusiness } from "../Interfaces/IBaseBusiness";
-import {Response } from 'express';
 import { StudentRepository } from "../../Repository/Respositories/StudentRepository";
 import { BaseResponse } from "../Utilities/BaseResponse";
 
@@ -11,18 +10,18 @@ export class StudentBusiness implements IBaseBusiness {
         this._repository = new StudentRepository();
     }
 
-    listAll(): BaseResponse{
+    listAll(){
 
         this._response = new BaseResponse();
         
-        return this._repository.listAll().then(model => {
+        return this._repository.listAll().then(response => {
            this._response.success = true;
-           this._response.data = model;
-
+           this._response.data = response;
+           
            return this._response;
         })
         .catch( error => {
-
+            
             this._response.success = false;
             return this._response;
         });

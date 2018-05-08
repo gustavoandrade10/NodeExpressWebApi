@@ -1,12 +1,13 @@
 import * as db from '../models/';
-import { Model } from 'sequelize';
 
 export class StudentRepository {
     
     constructor() {
     }
 
-    listAll():any{
-       return db.aluno.findAll();
+    async listAll(){
+       return await db.usuario_portal.findAll()
+       .then(data => data)
+       .catch(erro => erro);
     }
 }
