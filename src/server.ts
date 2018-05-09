@@ -28,7 +28,7 @@ class Server {
     config(): void {
 
         let env = process.env.NODE_ENV || 'development';
-        let config = require(__dirname + '/Repository/config/config.json')[env];
+        let config = require(__dirname + '/Config/config.json')[env];
 
         new Sequelize({
             host: config.host,

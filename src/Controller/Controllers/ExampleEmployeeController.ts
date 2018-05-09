@@ -3,8 +3,9 @@ import { Injectable } from '@decorators/di';
 import { ExampleEmployee } from '../../Models/Database/ExampleEmployee';
 import { BusinessFactory } from '../../Business/Factories/BusinessFactory';
 import { IExampleEmployeeBusiness } from '../../Business/Interfaces/IExampleEmployeeBusiness';
+import { Authorize } from '../Middlewares/Authorize';
 
-@Controller('/employees')
+@Controller('/employees',[Authorize])
 @Injectable()
 export class ExampleEmployeeController {
 
