@@ -4,7 +4,6 @@ var gulp = require("gulp-help")(require("gulp")),
     ts = require("gulp-typescript"),
     nodemon = require("gulp-nodemon");
 
-
     
 /***********************************************************************************
  * copy jsons from src to build
@@ -15,7 +14,7 @@ gulp.task('copy-assets', function () {
 });
 
 /***********************************************************************************
- * Build es5 javascript files from typescript sources
+ * Build es6 javascript files from typescript sources
  ***********************************************************************************/
 gulp.task("compile", function () {
     var project = ts.createProject({
@@ -38,7 +37,7 @@ gulp.task("compile", function () {
 });
 
 /***********************************************************************************
- * Call "build" task and start nodemon with watch (autorestart on changes found)
+ * Call "serve" task and start nodemon with watch (autorestart on changes found)
  ***********************************************************************************/
 gulp.task("serve", ["compile", "copy-assets"], function () {
     var stream = nodemon({
