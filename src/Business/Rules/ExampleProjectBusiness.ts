@@ -1,4 +1,3 @@
-import { ExampleProjectRepository } from "../../Repository/Respositories/ExampleProjectRepository";
 import { ExampleProject } from "../../Models/Database/ExampleProject";
 import { BaseBusiness } from "./BaseBusiness";
 import { BaseResponse } from "../Utilities/BaseResponse";

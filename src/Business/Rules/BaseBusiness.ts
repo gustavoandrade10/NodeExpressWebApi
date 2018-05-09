@@ -1,7 +1,6 @@
 import { IBaseBusiness } from "../Interfaces/IBaseBusiness";
 import { BaseResponse } from "../Utilities/BaseResponse";
 import { Model } from "sequelize-typescript";
-import { BaseRepository } from "../../Repository/Respositories/BaseRepository";
 import { IBaseRepository } from "../../Repository/Interfaces/IBaseRepository";
 
 export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T extends Model<T>> implements IBaseBusiness<T> {

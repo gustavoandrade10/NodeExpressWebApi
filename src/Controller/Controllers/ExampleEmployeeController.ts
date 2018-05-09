@@ -1,15 +1,12 @@
 import { Response, Params, Controller, Get, Post, Body, Put, Delete } from '@decorators/express';
 import { Injectable } from '@decorators/di';
-import { IBaseController } from '../Interfaces/IBaseController';
-import { ExampleEmployeeBusiness } from '../../Business/Rules/ExampleEmployeeBusiness';
 import { ExampleEmployee } from '../../Models/Database/ExampleEmployee';
-import { ExampleEmployeeRepository } from '../../Repository/Respositories/ExampleEmployeeRepository';
 import { BusinessFactory } from '../../Business/Factories/BusinessFactory';
 import { IExampleEmployeeBusiness } from '../../Business/Interfaces/IExampleEmployeeBusiness';
 
 @Controller('/employees')
 @Injectable()
-export class ExampleEmployeeController implements IBaseController<ExampleEmployee> {
+export class ExampleEmployeeController {
 
   private businessFactory: BusinessFactory;
   private currentBusinnes: IExampleEmployeeBusiness;
