@@ -3,11 +3,12 @@ import { ExampleProject } from "../../Models/Database/ExampleProject";
 import { BaseBusiness } from "./BaseBusiness";
 import { BaseResponse } from "../Utilities/BaseResponse";
 import { IExampleProjectBusiness } from "../Interfaces/IExampleProjectBusiness";
+import { IExampleProjectRepository } from "../../Repository/Interfaces/IExampleProjectRepository";
 
-export class ExampleProjectBusiness extends BaseBusiness<ExampleProject> implements IExampleProjectBusiness{
-    
+export class ExampleProjectBusiness extends BaseBusiness<IExampleProjectRepository, ExampleProject> implements IExampleProjectBusiness {
 
-    constructor(private _repository: ExampleProjectRepository) {
+
+    constructor(private _repository: IExampleProjectRepository) {
         super(_repository);
     }
 

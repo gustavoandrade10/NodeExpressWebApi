@@ -2,11 +2,12 @@ import { IBaseBusiness } from "../Interfaces/IBaseBusiness";
 import { BaseResponse } from "../Utilities/BaseResponse";
 import { Model } from "sequelize-typescript";
 import { BaseRepository } from "../../Repository/Respositories/BaseRepository";
+import { IBaseRepository } from "../../Repository/Interfaces/IBaseRepository";
 
-export class BaseBusiness<T extends Model<T>> implements IBaseBusiness<T> {
+export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T extends Model<T>> implements IBaseBusiness<T> {
     
     protected _baseResponse: BaseResponse;
-    constructor(private repository: BaseRepository<T>) { }
+    constructor(private repository: IBaseRepository<T>) { }
 
     ListAll(): Promise<BaseResponse> {
 

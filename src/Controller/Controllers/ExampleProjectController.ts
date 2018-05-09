@@ -4,15 +4,20 @@ import { IBaseController } from '../Interfaces/IBaseController';
 import { ExampleProject } from '../../Models/Database/ExampleProject';
 import { ExampleProjectBusiness } from '../../Business/Rules/ExampleProjectBusiness';
 import { ExampleProjectRepository } from '../../Repository/Respositories/ExampleProjectRepository';
+import { IExampleProjectBusiness } from '../../Business/Interfaces/IExampleProjectBusiness';
+import { BusinessFactory } from '../../Business/Factories/BusinessFactory';
 
 @Controller('/projects')
 @Injectable()
 export class ExampleProjectController implements IBaseController<ExampleProject> {
 
-  currentBusinnes: ExampleProjectBusiness;
+
+  private businessFactory: BusinessFactory;
+  private currentBusinnes: IExampleProjectBusiness;
 
   constructor() {
-    this.currentBusinnes = new ExampleProjectBusiness(new ExampleProjectRepository());
+    this.businessFactory = new BusinessFactory();
+    this.currentBusinnes = this.businessFactory.GetExampleProjectBusiness();
   }
 
   @Get('/')
