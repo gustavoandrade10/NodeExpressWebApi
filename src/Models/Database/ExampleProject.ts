@@ -47,5 +47,5 @@ export class ExampleProject extends Model<ExampleProject> {
   id_manager: number;
 
   @BelongsTo(() => ExampleEmployee)
-  gerentes: ExampleEmployee;
+  manager: ExampleEmployee;
 }

@@ -17,7 +17,7 @@ export class ExampleProjectRepository extends BaseRepository<ExampleProject> imp
                 model: ExampleEmployee,
                 attributes: ['firstname']
             }], 
-            attributes: ['title', 'gerentes.firstname']})
+            attributes: ['title']})
         .then(data => data)
         .catch(erro => erro);
     }

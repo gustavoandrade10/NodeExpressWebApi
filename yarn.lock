@@ -2,6 +2,19 @@
 # yarn lockfile v1
 
 
+"@decorators/di@>=1.0.0", "@decorators/di@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@decorators/di/-/di-1.0.2.tgz#38792aa8218562c6fa75781087b45eba4e582927"
+  dependencies:
+    reflect-metadata "0.1.10"
+
+"@decorators/express@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@decorators/express/-/express-2.2.2.tgz#60405c643c95868163ddadf7d337cddca6065bbe"
+  dependencies:
+    "@decorators/di" ">=1.0.0"
+    express ">=4.16.2"
+
 "@types/bluebird@*":
   version "3.5.20"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.20.tgz#f6363172add6f4eabb8cada53ca9af2781e8d6a1"
@@ -763,7 +776,11 @@ expect-ct@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/expect-ct/-/expect-ct-0.1.0.tgz#52735678de18530890d8d7b95f0ac63640958094"
 
-express@^4.16.3:
+express-promise@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/express-promise/-/express-promise-0.4.0.tgz#043c3cb7788d0ff299b06506df445722fdfad1e4"
+
+express@>=4.16.2, express@^4.16.3:
   version "4.16.3"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.3.tgz#6af8a502350db3246ecc4becf6b5a34d22f7ed53"
   dependencies:
@@ -2308,6 +2325,10 @@ redeyed@~1.0.0:
 referrer-policy@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/referrer-policy/-/referrer-policy-1.1.0.tgz#35774eb735bf50fb6c078e83334b472350207d79"
+
+reflect-metadata@0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.10.tgz#b4f83704416acad89988c9b15635d47e03b9344a"
 
 reflect-metadata@^0.1.12:
   version "0.1.12"
