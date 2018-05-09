@@ -8,7 +8,7 @@ import { Injectable } from '@decorators/di';
 
 /**
  * @description If user is authorize then he´s decoded data will be in
- * request.user
+ * request.currentUser
  */
 @Injectable()
 export class Authorize implements Middleware {
@@ -18,8 +18,8 @@ export class Authorize implements Middleware {
     JWToken.verifyJWTToken(token)
     .then((decodedToken: any) =>
     {
-      request.user = decodedToken.data
-      next()
+      request.currentUser = decodedToken.data
+      next();
     })
     .catch((err) =>
     {

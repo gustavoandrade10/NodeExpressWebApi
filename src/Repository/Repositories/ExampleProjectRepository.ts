@@ -12,11 +12,12 @@ export class ExampleProjectRepository extends BaseRepository<ExampleProject> imp
 
     async ListAllProjectsWithManager(): Promise<ExampleProject[]>{
         return await  this.model.findAll({
+            attributes: ['title'],
             include: [{
                 model: ExampleEmployee,
                 attributes: ['firstname']
-            }], 
-            attributes: ['title']})
+            }] 
+        })
         .then(data => data)
         .catch(erro => erro);
     }

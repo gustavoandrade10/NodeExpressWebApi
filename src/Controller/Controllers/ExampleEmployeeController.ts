@@ -5,7 +5,7 @@ import { IExampleEmployeeBusiness } from '../../Business/Interfaces/IExampleEmpl
 import { Authorize } from '../Middlewares/Authorize';
 
 @Controller('/employees',[Authorize])
-export class ExampleEmployeeController {
+export class ExampleEmployeeController{
 
   private businessFactory: BusinessFactory;
   private currentBusinnes: IExampleEmployeeBusiness;
