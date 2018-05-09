@@ -4,7 +4,6 @@ import { BaseRepository } from "./BaseRepository";
 import { IExampleProjectRepository } from "../Interfaces/IExampleProjectRepository";
 import { ExampleEmployee } from "../../Models/Database/ExampleEmployee";
 
-
 export class ExampleProjectRepository extends BaseRepository<ExampleProject> implements IExampleProjectRepository{
 
     constructor() {

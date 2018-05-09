@@ -7,6 +7,7 @@ import { IBaseRepository } from "../../Repository/Interfaces/IBaseRepository";
 export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T extends Model<T>> implements IBaseBusiness<T> {
     
     protected _baseResponse: BaseResponse;
+    
     constructor(private repository: IBaseRepository<T>) { }
 
     ListAll(): Promise<BaseResponse> {

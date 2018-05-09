@@ -11,7 +11,6 @@ import { BusinessFactory } from '../../Business/Factories/BusinessFactory';
 @Injectable()
 export class ExampleProjectController implements IBaseController<ExampleProject> {
 
-
   private businessFactory: BusinessFactory;
   private currentBusinnes: IExampleProjectBusiness;
 
@@ -29,7 +28,6 @@ export class ExampleProjectController implements IBaseController<ExampleProject>
   ListAllProjectsWithManager(@Response() res) {
     res.send(this.currentBusinnes.ListAllProjectsWithManager());
   }
-
 
   @Get('/:id')
   ListByID(@Response() res, @Params('id') id: number) {

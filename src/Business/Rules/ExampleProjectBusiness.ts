@@ -7,11 +7,9 @@ import { IExampleProjectRepository } from "../../Repository/Interfaces/IExampleP
 
 export class ExampleProjectBusiness extends BaseBusiness<IExampleProjectRepository, ExampleProject> implements IExampleProjectBusiness {
 
-
     constructor(private _repository: IExampleProjectRepository) {
         super(_repository);
     }
-
 
     ListAllProjectsWithManager(): Promise<BaseResponse> {
         this._baseResponse = new BaseResponse();
