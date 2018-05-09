@@ -12,6 +12,7 @@ import { attachControllers } from '@decorators/express';
 //Import Controllers
 import { ExampleEmployeeController } from './Controller/Controllers/ExampleEmployeeController';
 import { ExampleProjectController } from './Controller/Controllers/ExampleProjectController';
+import { ExampleUserController } from './Controller/Controllers/ExampleUserController';
 
 class Server {
 
@@ -56,6 +57,7 @@ class Server {
             res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
             res.header('Access-Control-Allow-Credentials', 'true');
+            res.header("Access-Control-Allow-Headers", "Authorization");
             next();
         });
 
@@ -65,7 +67,7 @@ class Server {
     routes(): void {
         const router: express.Router = express.Router();
 
-        attachControllers(router, [ExampleEmployeeController, ExampleProjectController]);
+        attachControllers(router, [ExampleEmployeeController, ExampleProjectController, ExampleUserController]);
         
         this.app.use('/api/v1', router);
 

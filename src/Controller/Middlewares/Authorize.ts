@@ -11,7 +11,7 @@ import JWToken from '../../Config/JsonWebToken/JWToken';
  */
 export class Authorize implements Middleware {
   public use(request, response: Response, next: NextFunction): void {
-    var token = request.query.token || request.headers['x-access-token'];
+    var token = request.headers['x-access-token'] || request.headers['authorization'];
 
     JWToken.verifyJWTToken(token)
     .then((decodedToken: any) =>
