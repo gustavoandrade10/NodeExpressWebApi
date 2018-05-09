@@ -58,6 +58,11 @@ or
 >``` yarn server ```
 
 
+### Database and Postman Services.
+You can find a dump file of the database and postman resources used in this project on **"resources/"** folder.
+
+Just import them and you´r good to go.
+
 ### Third party libraries
 
 Besides the frameworks mentioned above, other typescript libraries were used. 
