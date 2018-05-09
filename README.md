@@ -1,6 +1,6 @@
 # Node Express Web Api (NEWA)
 
-This Node Express Web Api using  [Typescript](https://www.typescriptlang.org/) and [Sequelize](http://docs.sequelizejs.com/).
+This Node Express Web Api (NEWA) using [Typescript](https://www.typescriptlang.org/) and [Sequelize](http://docs.sequelizejs.com/).
 
 # Installation
 
@@ -71,3 +71,6 @@ Besides the frameworks mentioned above, other typescript libraries were used.
  * [@decorators/express](https://www.npmjs.com/package/@decorators/express) (Another great work that helps alot on the creation of controllers.)
 
 
+### Doing
+
+ - NEWA-CLI to generate models,repositories,business and controllers.
