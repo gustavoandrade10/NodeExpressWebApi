@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "NodeExpressWebApi (NEWA)",
-		"_postman_id": "8ea9d235-0671-307d-b596-4bbbf9b23b3c",
+		"_postman_id": "620da1f6-006c-add5-2486-f3db8120f9b5",
 		"description": "For examples purposes.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -16,7 +16,13 @@
 					"request": {
 						"url": "http://localhost:3000/api/v1/employees",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -30,7 +36,13 @@
 					"request": {
 						"url": "http://localhost:3000/api/v1/employees/1",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -48,6 +60,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
 								"description": ""
 							}
 						],
@@ -69,6 +86,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
 							}
 						],
 						"body": {
@@ -84,7 +106,13 @@
 					"request": {
 						"url": "http://localhost:3000/api/v1/employees/1",
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -187,7 +215,68 @@
 						"url": "http://localhost:3000/api/v1/projects/managers",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"description": "",
+			"item": [
+				{
+					"name": "User - Register",
+					"request": {
+						"url": "http://localhost:3000/api/v1/user/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Talisson junior\",\n\t\"email\": \"juniortalisson16@gmail.com\",\n\t\"password\": \"teste\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User - authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\",data.data.access_token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3000/api/v1/user/authenticate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Talisson junior\",\n\t\"email\": \"juniortalisson16@gmail.com\",\n\t\"password\": \"teste\"\n}"
+						},
 						"description": ""
 					},
 					"response": []
