@@ -14,7 +14,6 @@ export class ExampleUserController{
     this.currentBusinnes = this.businessFactory.GetExampleUserBusiness();
   }
 
-
   @Post('/register')
   Register(@Response() res, @Body() model: ExampleUser) {
     res.send(this.currentBusinnes.Insert(model));
@@ -24,4 +23,5 @@ export class ExampleUserController{
   Authenticate(@Response() res, @Body() model: ExampleUser) {
     res.send(this.currentBusinnes.Authenticate(model));
   }
+
 }

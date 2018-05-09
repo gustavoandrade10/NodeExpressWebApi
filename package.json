@@ -4,10 +4,7 @@
   "main": "./build/index.js",
   "license": "MIT",
   "scripts": {
-    "server": "gulp copy-assets && tsc && nodemon ./build/index.js",
-    "copy": "",
-    "start": "node ./build/index.js",
-    "ts:watch": "tsc -w"
+    "server": "gulp serve"
   },
   "dependencies": {
     "@decorators/di": "^1.0.2",
@@ -37,6 +34,9 @@
     "@types/node": "9.6.7",
     "@types/sequelize": "^4.27.17",
     "gulp": "^3.9.1",
+    "gulp-help": "^1.6.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-typescript": "^4.0.2",
     "nodemon": "^1.17.4",
     "typescript": "^2.8.3"
   }
