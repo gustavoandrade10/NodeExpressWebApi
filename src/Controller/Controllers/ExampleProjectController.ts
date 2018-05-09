@@ -1,11 +1,9 @@
 import { Response, Params, Controller, Get, Post, Body, Put, Delete } from '@decorators/express';
-import { Injectable } from '@decorators/di';
 import { ExampleProject } from '../../Models/Database/ExampleProject';
 import { IExampleProjectBusiness } from '../../Business/Interfaces/IExampleProjectBusiness';
 import { BusinessFactory } from '../../Business/Factories/BusinessFactory';
 
 @Controller('/projects')
-@Injectable()
 export class ExampleProjectController{
 
   private businessFactory: BusinessFactory;

@@ -1,6 +1,5 @@
 import * as jwt from 'jsonwebtoken';
 import { config } from '../configs';
-import * as _ from 'lodash';
 import { BaseToken } from './BaseToken';
 
 class JWToken {

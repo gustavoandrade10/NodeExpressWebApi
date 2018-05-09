@@ -26,7 +26,7 @@ export class ExampleUserBusiness extends BaseBusiness<IExampleUserRepository, Ex
                 else {
 
                     let token = JWToken.createJWToken({
-                        expiresIn: 5000, //5 minutes
+                        expiresIn: 300, //5 minutes
                         data: {
                             id: response.id,
                             email: response.email

@@ -4,11 +4,13 @@ import * as jwt from "jsonwebtoken";
 import { config } from '../../config/configs';
 import { Request } from 'express-serve-static-core';
 import JWToken from '../../Config/JsonWebToken/JWToken';
+import { Injectable } from '@decorators/di';
 
 /**
- * @description If Authorize then check request.user for user data, data you pass
- * when creating token
+ * @description If user is authorize then he´s decoded data will be in
+ * request.user
  */
+@Injectable()
 export class Authorize implements Middleware {
   public use(request, response: Response, next: NextFunction): void {
     var token = request.headers['x-access-token'] || request.headers['authorization'];
