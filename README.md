@@ -1,6 +1,6 @@
 # Node Express Web Api (NEWA)
 
-This Node Express Web Api (NEWA) using [Typescript](https://www.typescriptlang.org/) and [Sequelize](http://docs.sequelizejs.com/) *( [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript)).
+A Node Express Web Api (NEWA) using [Typescript](https://www.typescriptlang.org/) and [Sequelize](http://docs.sequelizejs.com/) *( [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript)).
 
 # Installation
 
