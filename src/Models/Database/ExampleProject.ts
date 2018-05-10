@@ -1,5 +1,6 @@
-import {Table, Column, Model, DataType, CreatedAt, UpdatedAt, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import {Table, Column, Model, DataType, CreatedAt, UpdatedAt, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
 import { ExampleEmployee } from './ExampleEmployee';
+import { ExampleProjectEmployee } from './ExampleProjectEmployee';
 
 @Table({
   tableName: 'project',
@@ -48,4 +49,8 @@ export class ExampleProject extends Model<ExampleProject> {
 
   @BelongsTo(() => ExampleEmployee)
   manager: ExampleEmployee;
+
+  @HasMany(() => ExampleProjectEmployee)
+  projetos: ExampleProjectEmployee;
+
 }

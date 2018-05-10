@@ -19,7 +19,7 @@ export class ErrorResponse {
 
     constructor(erro: string, message: string) {
         this.erro = erro;
-        this.erro = erro;
+        this.message = message;
     }
 
 }

@@ -3,6 +3,7 @@ import { ExampleProject } from "../../Models/Database/ExampleProject";
 import { BaseRepository } from "./BaseRepository";
 import { IExampleProjectRepository } from "../Interfaces/IExampleProjectRepository";
 import { ExampleEmployee } from "../../Models/Database/ExampleEmployee";
+import { ExampleProjectEmployee } from "../../Models/Database/ExampleProjectEmployee";
 
 export class ExampleProjectRepository extends BaseRepository<ExampleProject> implements IExampleProjectRepository{
 
@@ -16,6 +17,8 @@ export class ExampleProjectRepository extends BaseRepository<ExampleProject> imp
             include: [{
                 model: ExampleEmployee,
                 attributes: ['firstname']
+            },{
+                model: ExampleProjectEmployee
             }] 
         })
         .then(data => data)
