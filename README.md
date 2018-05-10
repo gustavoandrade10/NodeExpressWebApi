@@ -1,74 +1,65 @@
 # Node Express Web Api (NEWA)
 
-This Node Express Web Api (NEWA) using [Typescript](https://www.typescriptlang.org/) and [Sequelize](http://docs.sequelizejs.com/).
+This Node Express Web Api (NEWA) using [Typescript](https://www.typescriptlang.org/) and [Sequelize](http://docs.sequelizejs.com/) *( [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript)).
 
 # Installation
 
 This document will give you some information about what tools you will need, to develop and build this project.
 
-Assuming you already have git installed and downloaded the project from it.
+So first clone or download this repository.
 
 ### Prerequisites
 
-3- Gulp 
+1- Node.js 
+ 
+>First you need to install [Node.js](https://nodejs.org/), recomended to download any stable version above 8.11.1
 
->You will need to install Gulp. We use it to compile and watch our typescript, so that we don´t worry about minor things and focus on development.
+2- Gulp 
+
+>Gulp is used to compile typescript into es6 javascript, server the application and watch for changes, so that you don´t worry about minor things. 
+
 
 ### Installing Prerequisites
 
-You can either use `NPM` or `YARN` so.
 
-In case you choose to use `YARN` make sure you already have it install, if you don´t then run:
+If you have previously installed a version of gulp globally, please run `npm rm --global` gulp to make sure your old version doesn't collide with gulp-cli
 
->``` npm install -g yarn ```
+```sh
+$ npm install --global gulp-cli
+```
 
-2- Open your favorite console application (Terminal, Command Prompt etc.), run the following command: 
-
-NPM users:
->``` npm install -g gulp ```
-
-YARN users: 
->``` yarn add gulp ```
 
 
 ### Installing Dependencies
 
-To be able to actually run this project you will need to install all the dependencies that are inside of **package.json** file.
+Install the dependencies listed inside of **package.json** file.
 
-To do so run: 
-
-NPM users:
->``` npm install```
-
-YARN users: 
- 
->``` yarn install ```
+```sh
+$ npm install 
+```
 
 ### Runnig the Project 
 
-To run the project type:
+After you had install [gulp-cli](###-Installing-Prerequisites) run:
 
->``` gulp serve ```
+```sh
+$ gulp serve 
+```
 
-or
->``` npm run server ```
+Use this command to compile typescripts, watch for changes and server the application.
 
-or
+### Resources.
 
->``` yarn server ```
+You can find a dump file of the database and postman resources that were used in this project on **"resources/"** folder.
 
-
-### Database and Postman Services.
-You can find a dump file of the database and postman resources used in this project on **"resources/"** folder.
-
-Just import them and you´r good to go.
+Just import them and you are good to go.
 
 ### Third party libraries
 
-Besides the frameworks mentioned above, other typescript libraries were used. 
+Besides the frameworks mentioned above, some typescript libraries were used. 
 
- * [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript) (One of our core libraries, we use on our repository, its perfect for our typescript project.)
- * [@decorators/express](https://www.npmjs.com/package/@decorators/express) (Another great work that helps alot on the creation of controllers.)
+ * [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript) (The core librarie of the project, it is used on the repository to create squelize typescript models.)
+ * [@decorators/express](https://www.npmjs.com/package/@decorators/express) (Another core librarie used on controllers.)
 
 
 ### Doing
