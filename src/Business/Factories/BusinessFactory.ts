@@ -10,7 +10,6 @@ import { ExampleUserBusiness } from "../Rules/ExampleUserBusiness";
 import { ExampleUserRepository } from "../../Repository/Repositories/ExampleUserRepository";
 
 export class BusinessFactory implements IBusinessFactory {
-
     private _iExampleProjectBusiness: IExampleProjectBusiness;
     private _iExampleEmployeeBusiness: IExampleEmployeeBusiness;
     private _iExampleUserBusiness: IExampleUserBusiness;
