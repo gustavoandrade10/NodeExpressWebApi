@@ -40,7 +40,7 @@ class Server {
             dialect: config.dialect,
             username: config.username,
             password: config.password,
-            modelPaths: [__dirname + '/Models/**'],
+            modelPaths: [__dirname + '/Models/**/**.ts'],
             operatorsAliases: false
         });
 
@@ -72,9 +72,15 @@ class Server {
 
         attachControllers(router, [ExampleEmployeeController, ExampleProjectController, ExampleUserController]);
         
-        
-        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+        const options = {
+            customCss: '.swagger-ui .topbar { display: none }'
+        };
+           
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
         this.app.use('/api/v1', router);
+
+        // Default
+        this.app.get('*',(req, res) => res.redirect('/api-docs'));
 
     }
 }

@@ -2,7 +2,8 @@
 var gulp = require('gulp');
 var gulp = require("gulp-help")(require("gulp")),
     ts = require("gulp-typescript"),
-    nodemon = require("gulp-nodemon");
+    nodemon = require("gulp-nodemon"),
+    open = require('gulp-open');
 
     
 /***********************************************************************************
@@ -39,12 +40,27 @@ gulp.task("compile", function () {
 /***********************************************************************************
  * Call "serve" task and start nodemon with watch (autorestart on changes found)
  ***********************************************************************************/
-gulp.task("serve", ["compile", "copy-assets"], function () {
+gulp.task("serve", function () {
     var stream = nodemon({
         script: "build/index.js",
         watch: ["src"],
         ext: "ts",
         tasks: ["compile", "copy-assets"],
     });
+
+    stream.on('start', ['browser']);
     return stream;
+});
+
+
+/***********************************************************************************
+ * Opens browser
+ ***********************************************************************************/
+gulp.task('browser', function(){
+    var options = {
+      uri: 'http://localhost:3000',
+      app: 'chrome'
+    };
+    gulp.src(__filename)
+    .pipe(open(options));
 });
