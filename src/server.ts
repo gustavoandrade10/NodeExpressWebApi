@@ -1,3 +1,6 @@
+
+import * as swaggerUi from 'swagger-ui-express';
+import * as swaggerDocument from './Config/swagger.json';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
@@ -69,6 +72,8 @@ class Server {
 
         attachControllers(router, [ExampleEmployeeController, ExampleProjectController, ExampleUserController]);
         
+        
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         this.app.use('/api/v1', router);
 
     }

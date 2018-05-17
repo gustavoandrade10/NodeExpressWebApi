@@ -23,7 +23,8 @@
     "mysql2": "^1.5.3",
     "reflect-metadata": "^0.1.12",
     "sequelize": "^4.37.7",
-    "sequelize-typescript": "^0.6.4"
+    "sequelize-typescript": "^0.6.4",
+    "swagger-ui-express": "^3.0.9"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",

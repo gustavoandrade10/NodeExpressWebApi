@@ -3,8 +3,8 @@ import { Response, NextFunction } from 'express';
 import * as jwt from "jsonwebtoken";
 import { config } from '../../config/configs';
 import { Request } from 'express-serve-static-core';
-import JWToken from '../../Config/JsonWebToken/JWToken';
 import { Injectable } from '@decorators/di';
+import JWToken from '../../Business/Extensions/JWToken';
 
 /**
  * @description If user is authorize then he´s decoded data will be in
@@ -15,7 +15,7 @@ export class Authorize implements Middleware {
   public use(request, response: Response, next: NextFunction): void {
     var token = request.headers['x-access-token'] || request.headers['authorization'];
 
-    JWToken.verifyJWTToken(token)
+    JWToken.verify(token)
     .then((decodedToken: any) =>
     {
       request.currentUser = decodedToken.data

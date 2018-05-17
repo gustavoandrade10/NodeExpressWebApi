@@ -3,7 +3,7 @@ import { IExampleUserRepository } from "../../Repository/Interfaces/IExampleUser
 import { IExampleUserBusiness } from "../Interfaces/IExampleUserBusiness";
 import { ExampleUser } from "../../Models/Database/ExampleUser";
 import { BaseResponse, ErrorResponse } from "../Utilities/BaseResponse";
-import JWToken from "../../Config/JsonWebToken/JWToken";
+import JWToken from "../Extensions/JWToken";
 
 export class ExampleUserBusiness extends BaseBusiness<IExampleUserRepository, ExampleUser> implements IExampleUserBusiness {
 
@@ -25,7 +25,7 @@ export class ExampleUserBusiness extends BaseBusiness<IExampleUserRepository, Ex
                 }
                 else {
 
-                    let token = JWToken.createJWToken({
+                    let token = JWToken.create({
                         expiresIn: 300, //5 minutes
                         data: {
                             id: response.id,
