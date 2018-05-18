@@ -40,7 +40,7 @@ gulp.task("compile", function () {
 /***********************************************************************************
  * Call "serve" task and start nodemon with watch (autorestart on changes found)
  ***********************************************************************************/
-gulp.task("serve", function () {
+gulp.task("serve", ["compile", "copy-assets"], function () {
     var stream = nodemon({
         script: "build/index.js",
         watch: ["src"],
@@ -48,7 +48,7 @@ gulp.task("serve", function () {
         tasks: ["compile", "copy-assets"],
     });
 
-    stream.on('start', ['browser']);
+    stream.on('start', []);
     return stream;
 });
 

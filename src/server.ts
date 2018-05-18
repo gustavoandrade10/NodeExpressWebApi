@@ -1,6 +1,6 @@
 
 import * as swaggerUi from 'swagger-ui-express';
-import * as swaggerDocument from './Config/swagger.json';
+import * as swaggerDocument from './Config/docs/swagger.json';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
@@ -16,13 +16,16 @@ import { attachControllers } from '@decorators/express';
 import { ExampleEmployeeController } from './Controller/Controllers/ExampleEmployeeController';
 import { ExampleProjectController } from './Controller/Controllers/ExampleProjectController';
 import { ExampleUserController } from './Controller/Controllers/ExampleUserController';
+import { SwaggerGenerator } from './Config/docs/swaggerGenerator';
 
 class Server {
 
     // set app to be of type express.Application
     app: express.Application;
+    swagger: SwaggerGenerator = new SwaggerGenerator();;
 
     constructor() {
+        this.swagger.generate();
         this.app = express();
         this.config();
         this.routes();
@@ -71,12 +74,8 @@ class Server {
         const router: express.Router = express.Router();
 
         attachControllers(router, [ExampleEmployeeController, ExampleProjectController, ExampleUserController]);
-        
-        const options = {
-            customCss: '.swagger-ui .topbar { display: none }'
-        };
-           
-        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         this.app.use('/api/v1', router);
 
         // Default
