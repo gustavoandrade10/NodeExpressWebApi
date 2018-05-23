@@ -45,7 +45,7 @@ class Server {
             dialect: config.dialect,
             username: config.username,
             password: config.password,
-            modelPaths: [__dirname + '/Models/**/**.ts'],
+            modelPaths: [__dirname + '/Models/**/**'],
             operatorsAliases: false
         });
 
@@ -78,6 +78,7 @@ class Server {
         attachControllers(router, [ExampleEmployeeController, ExampleProjectController, ExampleUserController]);
         this.app.use('/api/v1', router);
 
+        //DOCS
         // Setting navbar docs title
         var docsTitle = 'Node Express Web Api';
         var swaggerOptions = {
@@ -86,6 +87,7 @@ class Server {
 
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
         this.app.get('*',(req, res) => res.redirect('/api-docs'));
+        //END DOCS
 
     }
 }

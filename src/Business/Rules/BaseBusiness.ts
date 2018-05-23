@@ -7,7 +7,7 @@ export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T ext
     
     protected _baseResponse: BaseResponse;
     
-    constructor(private repository: IBaseRepository<T>) { }
+    constructor(private repository: TRepositoryInterface) { }
 
     ListAll(): Promise<BaseResponse> {
 
