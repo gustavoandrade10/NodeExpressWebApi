@@ -13,7 +13,7 @@ import JWToken from '../../Business/Extensions/JWToken';
 @Injectable()
 export class Authorize implements Middleware {
   public use(request, response: Response, next: NextFunction): void {
-    var token = request.headers['x-access-token'] || request.headers['authorization'];
+    var token = request.headers['x-access-token'] || request.headers['Authorization'];
 
     JWToken.verify(token)
     .then((decodedToken: any) =>

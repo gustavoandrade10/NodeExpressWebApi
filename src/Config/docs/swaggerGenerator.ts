@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as readline from 'readline';
 import * as stream from 'stream';
+import { execSync } from "child_process";
 
 export class SwaggerGenerator {
 
@@ -13,13 +14,15 @@ export class SwaggerGenerator {
         get: '@Get(',
         post: '@Post(',
         update: '@Put(',
-        delete: '@Delete('
+        delete: '@Delete(',
+        description: '@description'
     }
-
     private baseDecoratorsHelpers = {
         '@Get(': 'get', '@Post(': 'post',
         '@Put(': 'put', '@Delete(': 'delete'
     }
+
+    private hasAuthorize = false;
 
     constructor() {
         this.swagger = SWAGGERCONFIG.swaggerDefinition;
@@ -42,12 +45,14 @@ export class SwaggerGenerator {
 
                         if (response && index == filenames.length - 1) {
 
-                            fs.writeFile(path.join(process.cwd(), "src", "Config", "docs", "teste.json"), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
+                            fs.writeFile(path.join(process.cwd(), "src/Config/docs/swagger.json"), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
                                 if (err) {
-                                    return console.log(err);
+                                    console.log('Could not generate swagger docs.');
+                                    return false;
                                 }
-
-                                console.log("The file was saved!");
+                                else{
+                                    execSync('gulp copy-assets');
+                                }
                             });
 
                         }
@@ -94,9 +99,12 @@ export class SwaggerGenerator {
                 currentDecorator = this.decorators.delete;
                 arrayOfLinesForDecorator.push(line);
             }
+            else if (line.indexOf(this.decorators.description) > -1) {
+                arrayOfLinesForDecorator.push(line);
+            }
 
             // Will enter here on the next line after the line of the decorator.
-            if (arrayOfLinesForDecorator.length > 1 && arrayOfLinesForDecorator[arrayOfLinesForDecorator.length - 1].indexOf(currentDecorator) < 0) {
+            if (arrayOfLinesForDecorator.length > 1 && (arrayOfLinesForDecorator[arrayOfLinesForDecorator.length - 1].indexOf(currentDecorator) < 0 || arrayOfLinesForDecorator[arrayOfLinesForDecorator.length - 2].indexOf(currentDecorator) < 0)) {
                 this.createPath(arrayOfLinesForDecorator, currentDecorator, mainRoutePath);
                 arrayOfLinesForDecorator = [];
             }
@@ -113,6 +121,11 @@ export class SwaggerGenerator {
 
         let controllerRoute = line.substr(line.indexOf(this.decorators.controller));
         controllerRoute = controllerRoute.substring(12, controllerRoute.indexOf(')')); //@Controller <-- 12 caracters
+
+        if (controllerRoute.toLowerCase().indexOf('[authorize]') > -1)
+            this.hasAuthorize = true;
+        else
+            this.hasAuthorize = false;
 
         controllerRoute = controllerRoute.toLowerCase().replace('[authorize]', '');
         controllerRoute = controllerRoute.replace(/[^A-Za-z;//]/g, ""); // remove semicons, singlequotes, etc...
@@ -133,14 +146,19 @@ export class SwaggerGenerator {
 
     private async createPath(arrayOfLinesForDecorator: string[], decorator: string, mainRoutePath: string) {
 
+        let hasAuthentication = this.hasAuthorize;
         let routeName = '';
         let params: object[] = [];
+        let summary = '';
         await arrayOfLinesForDecorator.forEach(line => {
 
             // extract routename from @Get('routname') decorator and concat with mainRout define in @Controller('mainroute').
             if (line.indexOf(decorator) > -1) {
                 routeName = line.substr(line.indexOf(decorator));
                 routeName = routeName.substring(decorator.length, routeName.indexOf(')'));
+
+                if (!hasAuthentication && routeName.toLowerCase().indexOf('[authorize]') > -1)
+                    hasAuthentication = true;
 
                 routeName = routeName.toLowerCase().replace('[authorize]', '');
                 routeName = routeName.replace(/[^A-Za-z;://]/g, ""); // remove semicons, singlequotes, etc...
@@ -169,6 +187,7 @@ export class SwaggerGenerator {
                     paramName = paramName.substring(this.decorators.param.length, paramName.indexOf(')'));
 
                     paramName = paramName.replace(/[^A-Za-z;]/g, ""); // remove semicons, singlequotes, etc...
+
                     params.push({
                         name: paramName,
                         in: 'path',
@@ -181,6 +200,11 @@ export class SwaggerGenerator {
                 }
             }
 
+            else if (line.indexOf(this.decorators.description) > -1) {
+                summary = line.substr(line.indexOf(this.decorators.description));
+                summary = summary.substring(this.decorators.description.length).trim();
+            }
+
         });
 
         if (!this.swagger.paths)
@@ -188,7 +212,7 @@ export class SwaggerGenerator {
 
         if (!this.swagger.paths[routeName])
             this.swagger.paths[routeName] = {};
-            
+
         this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]] = {
             tags: [
                 mainRoutePath.split('/')[1]
@@ -200,10 +224,47 @@ export class SwaggerGenerator {
             this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].parameters = params;
         }
 
+        // Add summary
+        if (summary.length > 0) {
+            this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].summary = summary;
+        }
+
+        // Add Security
+        if (hasAuthentication) {
+            this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].security = [
+                {
+                    jwt: []
+                }
+            ];
+
+            // Add Response 401 for security
+            if(!this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].responses)
+                this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].responses = {};
+          
+            this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].responses['401'] = {
+                description: 'Authorization has been denied for this request.'
+            }
+        }
+
+        // Add Consumes and Produces
+        this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].consumes = ['application/json'];
+        this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].produces = ['application/json'];
+
+        // Add Security Definitions, this will make the green authorize and the modal appears.
+        if (!this.swagger.securityDefinitions && hasAuthentication) {
+            this.swagger.securityDefinitions = {
+                jwt: {
+                    type: 'apiKey',
+                    in: 'header',
+                    name: 'Authorization'
+                }
+            }
+        }
+
     }
 
     private onError(err: NodeJS.ErrnoException) {
-        console.log(err.message);
+        console.log('Could not find docs folder for swagger docs.');
     }
 
     private capitalizeName(name) {

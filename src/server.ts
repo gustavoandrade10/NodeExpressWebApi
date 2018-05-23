@@ -17,14 +17,16 @@ import { ExampleEmployeeController } from './Controller/Controllers/ExampleEmplo
 import { ExampleProjectController } from './Controller/Controllers/ExampleProjectController';
 import { ExampleUserController } from './Controller/Controllers/ExampleUserController';
 import { SwaggerGenerator } from './Config/docs/swaggerGenerator';
+import { SWAGGERCSS } from './Config/docs/swagger.css';
 
 class Server {
 
     // set app to be of type express.Application
     app: express.Application;
-    swagger: SwaggerGenerator = new SwaggerGenerator();;
+    swagger: SwaggerGenerator;
 
     constructor() {
+        this.swagger = new SwaggerGenerator();
         this.swagger.generate();
         this.app = express();
         this.config();
@@ -74,11 +76,15 @@ class Server {
         const router: express.Router = express.Router();
 
         attachControllers(router, [ExampleEmployeeController, ExampleProjectController, ExampleUserController]);
-
-        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         this.app.use('/api/v1', router);
 
-        // Default
+        // Setting navbar docs title
+        var docsTitle = 'Node Express Web Api';
+        var swaggerOptions = {
+            customCss: SWAGGERCSS(docsTitle)
+        };
+
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
         this.app.get('*',(req, res) => res.redirect('/api-docs'));
 
     }

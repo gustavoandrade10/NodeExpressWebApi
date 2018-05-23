@@ -1,5 +1,5 @@
 import { IBaseBusiness } from "../Interfaces/IBaseBusiness";
-import { BaseResponse } from "../Utilities/BaseResponse";
+import { BaseResponse, ErrorResponse } from "../Utilities/BaseResponse";
 import { Model } from "sequelize-typescript";
 import { IBaseRepository } from "../../Repository/Interfaces/IBaseRepository";
 
@@ -24,8 +24,8 @@ export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T ext
 
             return this._baseResponse;
         }).catch(error => {
-
             this._baseResponse.success = false;
+            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
             return this._baseResponse;
         });
     }
@@ -46,8 +46,8 @@ export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T ext
 
             return this._baseResponse;
         }).catch(error => {
-
             this._baseResponse.success = false;
+            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
             return this._baseResponse;
         });
     }
@@ -67,8 +67,8 @@ export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T ext
 
             return this._baseResponse;
         }).catch(error => {
-
             this._baseResponse.success = false;
+            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
             return this._baseResponse;
         });
     }
@@ -88,8 +88,8 @@ export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T ext
 
             return this._baseResponse;
         }).catch(error => {
-
             this._baseResponse.success = false;
+            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
             return this._baseResponse;
         });
     }
@@ -109,8 +109,8 @@ export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T ext
 
             return this._baseResponse;
         }).catch(error => {
-
             this._baseResponse.success = false;
+            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
             return this._baseResponse;
         });
     }
