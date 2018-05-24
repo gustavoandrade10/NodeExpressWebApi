@@ -7,7 +7,6 @@
     "server": "gulp serve"
   },
   "dependencies": {
-    "@decorators/di": "^1.0.2",
     "@decorators/express": "^2.2.2",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",

@@ -7,7 +7,6 @@ const stream = require('stream');
 class SwaggerGenerator {
 
     constructor() {
-        this.swagger;
         this.decorators = {
             param: '@Params(',
             body: '@Body()',
@@ -50,7 +49,7 @@ class SwaggerGenerator {
 
                                 if (response && index == filenames.length - 1) {
 
-                                    fs.writeFile(path.join(process.cwd(), "src/Config/docs/swagger.json"), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
+                                    fs.writeFile(path.join(process.cwd(), SWAGGERCONFIG.outputFile), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
                                         if (err) {
                                             console.log('Could not generate swagger docs.');
                                             return false;

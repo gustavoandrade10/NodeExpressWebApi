@@ -19,4 +19,5 @@ module.exports = SWAGGERCONFIG = {
   },
   controllersFolderPath: 'src/Controller/Controllers/',
   modelsFolderPath: 'src/Models/Database/',
+  outputFile: 'src/Config/docs/swagger.json'
 }
