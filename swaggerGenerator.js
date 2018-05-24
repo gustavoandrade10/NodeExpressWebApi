@@ -1,84 +1,92 @@
-import { SWAGGERCONFIG } from "./swagger.config";
-import * as path from 'path';
-import * as fs from 'fs';
-import * as readline from 'readline';
-import * as stream from 'stream';
-import { execSync } from "child_process";
+const SWAGGERCONFIG = require('./swagger.config');
+const path = require('path');
+const fs = require('fs');
+const readline = require('readline');
+const stream = require('stream');
 
-export class SwaggerGenerator {
-
-    private swagger: any;
-    private decorators = {
-        param: '@Params(',
-        body: '@Body()',
-        controller: '@Controller(',
-        get: '@Get(',
-        post: '@Post(',
-        update: '@Put(',
-        delete: '@Delete(',
-        description: '@description'
-    }
-    private baseDecoratorsHelpers = {
-        '@Get(': 'get', '@Post(': 'post',
-        '@Put(': 'put', '@Delete(': 'delete'
-    }
-
-    private hasAuthorize = false;
+class SwaggerGenerator {
 
     constructor() {
+        this.swagger;
+        this.decorators = {
+            param: '@Params(',
+            body: '@Body()',
+            controller: '@Controller(',
+            get: '@Get(',
+            post: '@Post(',
+            update: '@Put(',
+            delete: '@Delete(',
+            description: '@description'
+        }
+        this.baseDecoratorsHelpers = {
+            '@Get(': 'get', '@Post(': 'post',
+            '@Put(': 'put', '@Delete(': 'delete'
+        }
+
+        this.hasAuthorize = false;
         this.swagger = SWAGGERCONFIG.swaggerDefinition;
         this.swagger.tags = [];
         this.swagger.paths = {};
         this.swagger.definitions = {};
     }
 
-    generate() {
+    generate(callback) {
 
-        this.createModelDefinitions(() => {
+        try {
+            this.createModelDefinitions(() => {
 
-            let controllersFolderPath = path.join(process.cwd(), SWAGGERCONFIG.controllersFolderPath);
+                let controllersFolderPath = path.join(process.cwd(), SWAGGERCONFIG.controllersFolderPath);
 
-            if (fs.existsSync(controllersFolderPath)) {
-                fs.readdir(controllersFolderPath, (err: NodeJS.ErrnoException, filenames: string[]) => {
-                    if (err) {
-                        this.onError(err);
-                        return;
-                    }
+                if (fs.existsSync(controllersFolderPath)) {
+                    fs.readdir(controllersFolderPath, (err, filenames) => {
+                        if (err) {
+                            this.onError(err);
+                            return;
+                        }
 
-                    filenames.forEach((filename, index) => {
+                        filenames.forEach((filename, index) => {
 
-                        this.processFile(controllersFolderPath + filename, (response: boolean) => {
+                            this.processFile(controllersFolderPath + filename, (response) => {
 
-                            if (response && index == filenames.length - 1) {
+                                if (response && index == filenames.length - 1) {
 
-                                fs.writeFile(path.join(process.cwd(), "src/Config/docs/swagger.json"), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
-                                    if (err) {
-                                        console.log('Could not generate swagger docs.');
-                                        return false;
-                                    }
-                                    else {
-                                        execSync('gulp copy-assets');
-                                    }
-                                });
+                                    fs.writeFile(path.join(process.cwd(), "src/Config/docs/swagger.json"), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
+                                        if (err) {
+                                            console.log('Could not generate swagger docs.');
+                                            return false;
+                                        }
 
-                            }
+                                        callback(true);
+                                    });
+
+                                }
+                            });
+
                         });
 
                     });
+                } // Controllers
 
-                });
-            } // Controllers
-
-        }); // Models
+            }); // Models
+        }
+        catch (e) {
+            callback(false);
+        }
     }
 
-    private processFile(inputFile: string, callback: Function) {
+    /**
+     * private method
+     * @returns void
+     * @param {string} inputFile 
+     * @param {Function} callback 
+     */
+    processFile(inputFile, callback) {
 
         let instream = fs.createReadStream(inputFile),
             rl = readline.createInterface(instream, new stream.Writable);
 
         let mainRoutePath = '';
-        let arrayOfLinesForDecorator: string[] = []; // Contains all lines information for a specific route
+        let arrayOfLinesForDecorator = []; // Contains all lines information for a specific route
         let currentDecorator = ''; // the current decorator that is being getting information from.
 
         rl.on('line', (line) => {
@@ -124,7 +132,12 @@ export class SwaggerGenerator {
         });
     }
 
-    private createSwaggerTags(line: string): string {
+    /**
+     * private field
+     * @returns string
+     * @param {string} line 
+     */
+    createSwaggerTags(line) {
 
         let controllerRoute = line.substr(line.indexOf(this.decorators.controller));
         controllerRoute = controllerRoute.substring(12, controllerRoute.indexOf(')')); //@Controller <-- 12 caracters
@@ -151,11 +164,18 @@ export class SwaggerGenerator {
         return controllerRoute;
     }
 
-    private async createPath(arrayOfLinesForDecorator: string[], decorator: string, mainRoutePath: string) {
+    /**
+     * private asycn method
+     * @returns void
+     * @param {string[]} arrayOfLinesForDecorator 
+     * @param {string} decorator 
+     * @param {string} mainRoutePath 
+     */
+    async createPath(arrayOfLinesForDecorator, decorator, mainRoutePath) {
 
         let hasAuthentication = this.hasAuthorize;
         let routeName = '';
-        let params: object[] = [];
+        let params = [];
         let summary = '';
         await arrayOfLinesForDecorator.forEach(line => {
 
@@ -290,12 +310,17 @@ export class SwaggerGenerator {
 
     }
 
-    private createModelDefinitions(callback: Function) {
+    /**
+     * private method
+     * @returns void
+     * @param {Function} callback 
+     */
+    createModelDefinitions(callback) {
 
         let modelsFolderPath = path.join(process.cwd(), SWAGGERCONFIG.modelsFolderPath);
 
         if (fs.existsSync(modelsFolderPath)) {
-            fs.readdir(modelsFolderPath, (err: NodeJS.ErrnoException, filenames: string[]) => {
+            fs.readdir(modelsFolderPath, (err, filenames) => {
                 if (err) {
                     this.onError(err);
                     return;
@@ -317,7 +342,13 @@ export class SwaggerGenerator {
     }
 
 
-    private processModelFiles(inputFile: string, callback: Function) {
+    /**
+     * private method
+     * @returns void
+     * @param {string} inputFile 
+     * @param {Function} callback 
+     */
+    processModelFiles(inputFile, callback) {
 
         let instream = fs.createReadStream(inputFile),
             rl = readline.createInterface(instream, new stream.Writable);
@@ -346,7 +377,7 @@ export class SwaggerGenerator {
             // Wil only enter here on the next line after enter on #1, #2
             if (foundProperty) {
 
-                if(!hideProperty){
+                if (!hideProperty) {
                     let propertyValue = line.substr(0, line.indexOf(':')).trim();
                     let propertyType = line.substr(line.indexOf(':')).replace(/[:;]/g, "").trim();
 
@@ -357,14 +388,14 @@ export class SwaggerGenerator {
                         type: propertyType
                     }
                 }
-                else{
+                else {
                     hideProperty = false;
                 }
 
                 foundProperty = false;
             }
 
-            if(line.indexOf('@swaggerhideproperty') > -1){
+            if (line.indexOf('@swaggerhideproperty') > -1) {
                 hideProperty = true;
             }
 
@@ -386,11 +417,23 @@ export class SwaggerGenerator {
         });
     }
 
-    private onError(err: NodeJS.ErrnoException) {
+    /**
+     * private method
+     * @returns void
+     * @param {NodeJS.ErrnoException} err 
+     */
+    onError(err) {
         console.log('Could not find docs folder for swagger docs.');
     }
 
-    private capitalizeName(name) {
+    /**
+     * private method
+     * @returns string
+     * @param {string} name 
+     */
+    capitalizeName(name) {
         return name.replace(/\b(\w)/g, s => s.toUpperCase());
     }
 }
+
+module.exports = new SwaggerGenerator();

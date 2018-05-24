@@ -16,18 +16,14 @@ import { attachControllers } from '@decorators/express';
 import { ExampleEmployeeController } from './Controller/Controllers/ExampleEmployeeController';
 import { ExampleProjectController } from './Controller/Controllers/ExampleProjectController';
 import { ExampleUserController } from './Controller/Controllers/ExampleUserController';
-import { SwaggerGenerator } from './Config/docs/swaggerGenerator';
 import { SWAGGERCSS } from './Config/docs/swagger.css';
 
 class Server {
 
     // set app to be of type express.Application
     app: express.Application;
-    swagger: SwaggerGenerator;
 
     constructor() {
-        this.swagger = new SwaggerGenerator();
-        this.swagger.generate();
         this.app = express();
         this.config();
         this.routes();

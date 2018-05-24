@@ -1,4 +1,4 @@
-export const SWAGGERCONFIG = {
+module.exports = SWAGGERCONFIG = {
   swaggerDefinition: {
     info: {
       version: '1.0.0',
