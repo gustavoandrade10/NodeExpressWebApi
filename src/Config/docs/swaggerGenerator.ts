@@ -10,6 +10,7 @@ export class SwaggerGenerator {
     private swagger: any;
     private decorators = {
         param: '@Params(',
+        body: '@Body()',
         controller: '@Controller(',
         get: '@Get(',
         post: '@Post(',
@@ -26,42 +27,49 @@ export class SwaggerGenerator {
 
     constructor() {
         this.swagger = SWAGGERCONFIG.swaggerDefinition;
+        this.swagger.tags = [];
+        this.swagger.paths = {};
+        this.swagger.definitions = {};
     }
 
     generate() {
 
-        let controllersFolderPath = path.join(process.cwd(), SWAGGERCONFIG.controllersFolderPath);
+        this.createModelDefinitions(() => {
 
-        if (fs.existsSync(controllersFolderPath)) {
-            fs.readdir(controllersFolderPath, (err: NodeJS.ErrnoException, filenames: string[]) => {
-                if (err) {
-                    this.onError(err);
-                    return;
-                }
+            let controllersFolderPath = path.join(process.cwd(), SWAGGERCONFIG.controllersFolderPath);
 
-                filenames.forEach((filename, index) => {
+            if (fs.existsSync(controllersFolderPath)) {
+                fs.readdir(controllersFolderPath, (err: NodeJS.ErrnoException, filenames: string[]) => {
+                    if (err) {
+                        this.onError(err);
+                        return;
+                    }
 
-                    this.processFile(controllersFolderPath + filename, (response: boolean) => {
+                    filenames.forEach((filename, index) => {
 
-                        if (response && index == filenames.length - 1) {
+                        this.processFile(controllersFolderPath + filename, (response: boolean) => {
 
-                            fs.writeFile(path.join(process.cwd(), "src/Config/docs/swagger.json"), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
-                                if (err) {
-                                    console.log('Could not generate swagger docs.');
-                                    return false;
-                                }
-                                else{
-                                    execSync('gulp copy-assets');
-                                }
-                            });
+                            if (response && index == filenames.length - 1) {
 
-                        }
+                                fs.writeFile(path.join(process.cwd(), "src/Config/docs/swagger.json"), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
+                                    if (err) {
+                                        console.log('Could not generate swagger docs.');
+                                        return false;
+                                    }
+                                    else {
+                                        execSync('gulp copy-assets');
+                                    }
+                                });
+
+                            }
+                        });
+
                     });
 
                 });
+            } // Controllers
 
-            });
-        }
+        }); // Models
     }
 
     private processFile(inputFile: string, callback: Function) {
@@ -69,7 +77,7 @@ export class SwaggerGenerator {
         let instream = fs.createReadStream(inputFile),
             rl = readline.createInterface(instream, new stream.Writable);
 
-        let oldLine = '', mainRoutePath = '';
+        let mainRoutePath = '';
         let arrayOfLinesForDecorator: string[] = []; // Contains all lines information for a specific route
         let currentDecorator = ''; // the current decorator that is being getting information from.
 
@@ -109,7 +117,6 @@ export class SwaggerGenerator {
                 arrayOfLinesForDecorator = [];
             }
 
-            oldLine = line;
         });
 
         rl.on('close', (line) => {
@@ -176,33 +183,53 @@ export class SwaggerGenerator {
 
                 routeName = mainRoutePath + routeName;
             }
-            // Extract the params from the method
-            else if (line.indexOf(this.decorators.param) > -1) {
-                let lineRef = line;
-
-                while (lineRef.indexOf(this.decorators.param) > -1) {
-
-                    let paramPos = lineRef.indexOf(this.decorators.param);
-                    let paramName = lineRef.substr(paramPos);
-                    paramName = paramName.substring(this.decorators.param.length, paramName.indexOf(')'));
-
-                    paramName = paramName.replace(/[^A-Za-z;]/g, ""); // remove semicons, singlequotes, etc...
-
-                    params.push({
-                        name: paramName,
-                        in: 'path',
-                        required: true,
-                        description: `${paramName} to find`,
-                        type: 'string'
-                    });
-
-                    lineRef = lineRef.substr(paramPos + this.decorators.param.length);
-                }
-            }
-
             else if (line.indexOf(this.decorators.description) > -1) {
                 summary = line.substr(line.indexOf(this.decorators.description));
                 summary = summary.substring(this.decorators.description.length).trim();
+            }
+            // Extract the params from the method
+            else {
+
+                if (line.indexOf(this.decorators.param) > -1) {
+                    let lineRef = line;
+
+                    while (lineRef.indexOf(this.decorators.param) > -1) {
+
+                        let paramPos = lineRef.indexOf(this.decorators.param);
+                        let paramName = lineRef.substr(paramPos);
+                        paramName = paramName.substring(this.decorators.param.length, paramName.indexOf(')'));
+
+                        paramName = paramName.replace(/[^A-Za-z;]/g, ""); // remove semicons, singlequotes, etc...
+
+                        params.push({
+                            name: paramName,
+                            in: 'path',
+                            required: true,
+                            description: `${paramName} to find`,
+                            type: 'string'
+                        });
+
+                        lineRef = lineRef.substr(paramPos + this.decorators.param.length);
+                    }
+                }
+
+                if (line.indexOf(this.decorators.body) > -1) {
+
+                    let bodyPos = line.indexOf(this.decorators.body);
+                    let bodyLine = line.substring(this.decorators.body.length + bodyPos);
+
+                    let bodyPropertyValue = bodyLine.substr(0, bodyLine.indexOf(':')).trim();
+                    let bodyPropertyType = bodyLine.substr(bodyLine.indexOf(':')).replace(/[:;){]/g, "").trim();
+
+                    params.push({
+                        in: "body",
+                        name: bodyPropertyValue,
+                        required: true,
+                        schema: {
+                            $ref: "#/definitions/" + bodyPropertyType
+                        }
+                    });
+                }
             }
 
         });
@@ -238,9 +265,9 @@ export class SwaggerGenerator {
             ];
 
             // Add Response 401 for security
-            if(!this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].responses)
+            if (!this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].responses)
                 this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].responses = {};
-          
+
             this.swagger.paths[routeName][this.baseDecoratorsHelpers[decorator]].responses['401'] = {
                 description: 'Authorization has been denied for this request.'
             }
@@ -261,6 +288,102 @@ export class SwaggerGenerator {
             }
         }
 
+    }
+
+    private createModelDefinitions(callback: Function) {
+
+        let modelsFolderPath = path.join(process.cwd(), SWAGGERCONFIG.modelsFolderPath);
+
+        if (fs.existsSync(modelsFolderPath)) {
+            fs.readdir(modelsFolderPath, (err: NodeJS.ErrnoException, filenames: string[]) => {
+                if (err) {
+                    this.onError(err);
+                    return;
+                }
+
+                filenames.forEach((filename, index) => {
+
+                    this.processModelFiles(modelsFolderPath + filename, (response) => {
+
+                        if (response && index == filenames.length - 1) {
+                            callback(response);
+                        }
+                    });
+
+                });
+
+            });
+        }
+    }
+
+
+    private processModelFiles(inputFile: string, callback: Function) {
+
+        let instream = fs.createReadStream(inputFile),
+            rl = readline.createInterface(instream, new stream.Writable);
+
+        let classTag = 'class';
+        let modelName = '';
+        let isSearchingForColumnBracketsEnd = false, foundProperty = false;
+        let hideProperty = false;
+
+        rl.on('line', (line) => {
+
+            if (line.indexOf(classTag) > -1) {
+                modelName = line.substr(line.indexOf(classTag));
+                modelName = modelName.substring(classTag.length, modelName.indexOf('extends')).trim();
+
+                if (!this.swagger.definitions)
+                    this.swagger.definitions = {};
+
+                // Creates definition
+                this.swagger.definitions[modelName] = {
+                    type: 'object',
+                    properties: {}
+                };
+            }
+
+            // Wil only enter here on the next line after enter on #1, #2
+            if (foundProperty) {
+
+                if(!hideProperty){
+                    let propertyValue = line.substr(0, line.indexOf(':')).trim();
+                    let propertyType = line.substr(line.indexOf(':')).replace(/[:;]/g, "").trim();
+
+                    // validations
+                    propertyType = propertyType.toLowerCase() == 'date' ? 'date-time' : propertyType;
+
+                    this.swagger.definitions[modelName].properties[propertyValue] = {
+                        type: propertyType
+                    }
+                }
+                else{
+                    hideProperty = false;
+                }
+
+                foundProperty = false;
+            }
+
+            if(line.indexOf('@swaggerhideproperty') > -1){
+                hideProperty = true;
+            }
+
+            // #1
+            if (line.indexOf('@Column') > -1 && line.indexOf('({') > -1) {
+                isSearchingForColumnBracketsEnd = true;
+            }
+
+            // #2
+            if (isSearchingForColumnBracketsEnd && line.indexOf('})') > -1) {
+                isSearchingForColumnBracketsEnd = false;
+                foundProperty = true;
+            }
+
+        });
+
+        rl.on('close', (line) => {
+            callback(true);
+        });
     }
 
     private onError(err: NodeJS.ErrnoException) {

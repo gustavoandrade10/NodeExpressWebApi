@@ -18,4 +18,5 @@ export const SWAGGERCONFIG = {
     ]
   },
   controllersFolderPath: 'src/Controller/Controllers/',
+  modelsFolderPath: 'src/Models/Database/',
 }

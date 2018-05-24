@@ -6,6 +6,7 @@ import { Table, Column, Model, DataType, CreatedAt, UpdatedAt} from 'sequelize-t
 })
 export class ExampleUser extends Model<ExampleUser> {
 
+  // @swaggerhideproperty
   @Column({
     type: DataType.INTEGER(11),
     allowNull: false,

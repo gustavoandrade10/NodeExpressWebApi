@@ -8,6 +8,7 @@ import { ExampleProjectEmployee } from './ExampleProjectEmployee';
 })
 export class ExampleProject extends Model<ExampleProject> {
 
+  // @swaggerhideproperty
   @Column({
     type: DataType.INTEGER(11),
     allowNull: false,
