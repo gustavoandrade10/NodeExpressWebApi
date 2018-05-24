@@ -27,6 +27,10 @@ class SwaggerGenerator {
         this.swagger.tags = [];
         this.swagger.paths = {};
         this.swagger.definitions = {};
+
+        // Array to hold the models definitions, it will remove the modelName
+        // if controllers uses that model as part of @Body decorator
+        this.modelsDefinitionsNames = [];
     }
 
     generate(callback) {
@@ -48,6 +52,11 @@ class SwaggerGenerator {
                             this.processFile(controllersFolderPath + filename, (response) => {
 
                                 if (response && index == filenames.length - 1) {
+
+                                    // Removes models definitions that are not being used.
+                                    this.modelsDefinitionsNames.forEach(modelname => {
+                                        delete this.swagger.definitions[modelname];
+                                    });
 
                                     fs.writeFile(path.join(process.cwd(), SWAGGERCONFIG.outputFile), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
                                         if (err) {
@@ -232,6 +241,7 @@ class SwaggerGenerator {
                     }
                 }
 
+                // @Body
                 if (line.indexOf(this.decorators.body) > -1) {
 
                     let bodyPos = line.indexOf(this.decorators.body);
@@ -239,6 +249,12 @@ class SwaggerGenerator {
 
                     let bodyPropertyValue = bodyLine.substr(0, bodyLine.indexOf(':')).trim();
                     let bodyPropertyType = bodyLine.substr(bodyLine.indexOf(':')).replace(/[:;){]/g, "").trim();
+
+                    // Removes the models that are in use.
+                    var index = this.modelsDefinitionsNames.indexOf(bodyPropertyType);
+                    if (index !== -1) {
+                        this.modelsDefinitionsNames.splice(index, 1);
+                    }
 
                     params.push({
                         in: "body",
@@ -362,6 +378,8 @@ class SwaggerGenerator {
             if (line.indexOf(classTag) > -1) {
                 modelName = line.substr(line.indexOf(classTag));
                 modelName = modelName.substring(classTag.length, modelName.indexOf('extends')).trim();
+                // Adds models to keep track of them.
+                this.modelsDefinitionsNames.push(modelName);
 
                 if (!this.swagger.definitions)
                     this.swagger.definitions = {};
