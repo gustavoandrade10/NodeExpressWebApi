@@ -1,4 +1,3 @@
-
 import * as swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './Config/docs/swagger.json';
 import * as bodyParser from 'body-parser';
@@ -11,12 +10,12 @@ import * as logger from 'morgan';
 import * as expressPromise from 'express-promise';
 import { Sequelize } from 'sequelize-typescript';
 import { attachControllers } from '@decorators/express';
+import { SWAGGERCSS } from './Config/docs/swagger.css';
 
 //Import Controllers
 import { ExampleEmployeeController } from './Controller/Controllers/ExampleEmployeeController';
 import { ExampleProjectController } from './Controller/Controllers/ExampleProjectController';
 import { ExampleUserController } from './Controller/Controllers/ExampleUserController';
-import { SWAGGERCSS } from './Config/docs/swagger.css';
 
 class Server {
 
