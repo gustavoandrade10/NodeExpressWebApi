@@ -14,11 +14,13 @@ export class ExampleUserController{
     this.currentBusinnes = this.businessFactory.GetExampleUserBusiness();
   }
 
+  // @description Register user
   @Post('/register')
   Register(@Response() res, @Body() model: ExampleUser) {
     res.send(this.currentBusinnes.Insert(model));
   }
 
+  // @description Authenticate user
   @Post('/authenticate')
   Authenticate(@Response() res, @Body() model: ExampleUser) {
     res.send(this.currentBusinnes.Authenticate(model));
