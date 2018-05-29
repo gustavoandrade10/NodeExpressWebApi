@@ -155,7 +155,12 @@ class SwaggerGenerator {
         else
             this.hasAuthorize = false;
 
-        controllerRoute = controllerRoute.toLowerCase().replace('[authorize]', '');
+        // Remove middlewares
+        if (controllerRoute.indexOf(',') > -1 && controllerRoute.indexOf('[') > -1 && controllerRoute.indexOf(']') > -1) {
+            controllerRoute = controllerRoute.substring(0, controllerRoute.indexOf('['));
+            controllerRoute = controllerRoute.substring(controllerRoute.indexOf(']'));
+        }
+
         controllerRoute = controllerRoute.replace(/[^A-Za-z;//]/g, ""); // remove semicons, singlequotes, etc...
 
         let controllerName = controllerRoute.split('/')[1];
@@ -195,7 +200,12 @@ class SwaggerGenerator {
                 if (!hasAuthentication && routeName.toLowerCase().indexOf('[authorize]') > -1)
                     hasAuthentication = true;
 
-                routeName = routeName.toLowerCase().replace('[authorize]', '');
+                // Remove middlewares
+                if (routeName.indexOf(',') > -1 && routeName.indexOf('[') > -1 && routeName.indexOf(']') > -1) {
+                    routeName = routeName.substring(0, routeName.indexOf('['));
+                    routeName = routeName.substring(routeName.indexOf(']'));
+                }
+
                 routeName = routeName.replace(/[^A-Za-z;://]/g, ""); // remove semicons, singlequotes, etc...
 
                 // Replaces all the params dots for curly brackest. example: :teste/:id => {teste}/{id}
