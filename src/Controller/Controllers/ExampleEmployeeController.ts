@@ -23,8 +23,8 @@ export class ExampleEmployeeController{
 
   // @description Get employee by id
   @Get('/:id')
-  ListByID(@Response() res, @Params('id') id: number) {
-    res.send(this.currentBusinnes.ListByID(id));
+  GetByID(@Response() res, @Params('id') id: number) {
+    res.send(this.currentBusinnes.GetByID(id));
   }
 
   // @description Create new employee

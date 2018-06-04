@@ -11,8 +11,8 @@ export class BaseBusiness<TRepository extends BaseRepository<T>, T extends Model
         return this.handleBaseResponse(this.repository.ListAll());
     }
 
-    ListByID(id: number): Promise<BaseResponse> {
-        return this.handleBaseResponse(this.repository.listByID(id));
+    GetByID(id: number): Promise<BaseResponse> {
+        return this.handleBaseResponse(this.repository.GetByID(id));
     }
 
     Insert(model: T): Promise<BaseResponse> {

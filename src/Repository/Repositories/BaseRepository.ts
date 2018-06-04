@@ -16,7 +16,7 @@ export class BaseRepository<T extends Model<T>> implements IBaseRepository<T>{
         .catch(erro => this.handleError(erro));
     }
 
-    async listByID(id: number): Promise<T> {
+    async GetByID(id: number): Promise<T> {
         return await this.model.findOne(<any>{where:{ id: id}})
         .then(data => data)
         .catch(erro => this.handleError(erro));
