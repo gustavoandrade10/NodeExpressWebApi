@@ -1,11 +1,10 @@
 import { BaseBusiness } from "./BaseBusiness";
+import { ExampleEmployeeRepository } from "../../Repository/Repositories/ExampleEmployeeRepository";
 import { ExampleEmployee } from "../../Models/Database/ExampleEmployee";
-import { IExampleEmployeeBusiness } from "../Interfaces/IExampleEmployeeBusiness";
-import { IExampleEmployeeRepository } from "../../Repository/Interfaces/IExampleEmployeeRepository";
 
-export class ExampleEmployeeBusiness extends BaseBusiness<IExampleEmployeeRepository, ExampleEmployee> implements IExampleEmployeeBusiness {
+export class ExampleEmployeeBusiness extends BaseBusiness<ExampleEmployeeRepository, ExampleEmployee> {
 
-    constructor(private _repository: IExampleEmployeeRepository) {
+    constructor(private _repository: ExampleEmployeeRepository) {
         super(_repository);
     }
 

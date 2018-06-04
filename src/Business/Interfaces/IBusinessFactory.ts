@@ -1,9 +1,10 @@
-import { IExampleEmployeeBusiness } from "./IExampleEmployeeBusiness";
-import { IExampleProjectBusiness } from "./IExampleProjectBusiness";
-import { IExampleUserBusiness } from "./IExampleUserBusiness";
+import { ExampleProjectBusiness } from "../Rules/ExampleProjectBusiness";
+import { ExampleEmployeeBusiness } from "../Rules/ExampleEmployeeBusiness";
+import { ExampleUserBusiness } from "../Rules/ExampleUserBusiness";
+
 
 export interface IBusinessFactory {
-    GetExampleProjectBusiness(): IExampleProjectBusiness;
-    GetExampleEmployeeBusiness(): IExampleEmployeeBusiness;
-    GetExampleUserBusiness(): IExampleUserBusiness;
+    GetExampleProjectBusiness(): ExampleProjectBusiness;
+    GetExampleEmployeeBusiness(): ExampleEmployeeBusiness;
+    GetExampleUserBusiness(): ExampleUserBusiness;
 }

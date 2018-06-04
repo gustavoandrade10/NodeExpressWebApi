@@ -1,14 +1,14 @@
 import { Response, Params, Controller, Get, Post, Body, Put, Delete } from '@decorators/express';
-import { ExampleEmployee } from '../../Models/Database/ExampleEmployee';
 import { BusinessFactory } from '../../Business/Factories/BusinessFactory';
-import { IExampleEmployeeBusiness } from '../../Business/Interfaces/IExampleEmployeeBusiness';
+import { ExampleEmployeeBusiness } from '../../Business/Rules/ExampleEmployeeBusiness';
+import { ExampleEmployee } from '../../Models/Database/ExampleEmployee';
 import { Authorize } from '../Middlewares/Authorize';
 
 @Controller('/employees',[Authorize])
 export class ExampleEmployeeController{
 
   private businessFactory: BusinessFactory;
-  private currentBusinnes: IExampleEmployeeBusiness;
+  private currentBusinnes: ExampleEmployeeBusiness;
 
   constructor() {
     this.businessFactory =  new BusinessFactory();

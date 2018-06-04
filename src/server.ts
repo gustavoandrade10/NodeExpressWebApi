@@ -16,10 +16,10 @@ import { SWAGGERCSS } from './Config/docs/swagger.css';
 import { ExampleEmployeeController } from './Controller/Controllers/ExampleEmployeeController';
 import { ExampleProjectController } from './Controller/Controllers/ExampleProjectController';
 import { ExampleUserController } from './Controller/Controllers/ExampleUserController';
+import { GlobalVars } from './Config/configs';
 
 class Server {
 
-    // set app to be of type express.Application
     app: express.Application;
 
     constructor() {
@@ -34,7 +34,7 @@ class Server {
         let env = process.env.NODE_ENV || 'development';
         let config = require(__dirname + '/Config/config.json')[env];
 
-        new Sequelize({
+        GlobalVars.SequelizeInstance = new Sequelize({
             host: config.host,
             database: config.database,
             dialect: config.dialect,

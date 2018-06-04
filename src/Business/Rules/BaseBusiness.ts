@@ -1,118 +1,50 @@
 import { IBaseBusiness } from "../Interfaces/IBaseBusiness";
 import { BaseResponse, ErrorResponse } from "../Utilities/BaseResponse";
 import { Model } from "sequelize-typescript";
-import { IBaseRepository } from "../../Repository/Interfaces/IBaseRepository";
+import { BaseRepository } from "../../Repository/Repositories/BaseRepository";
 
-export class BaseBusiness<TRepositoryInterface extends IBaseRepository<T>, T extends Model<T>> implements IBaseBusiness<T> {
+export class BaseBusiness<TRepository extends BaseRepository<T>, T extends Model<T>> implements IBaseBusiness<T> {
     
-    protected _baseResponse: BaseResponse;
-    
-    constructor(private repository: TRepositoryInterface) { }
+    constructor(private repository: TRepository) { }
 
     ListAll(): Promise<BaseResponse> {
-
-        this._baseResponse = new BaseResponse();
-
-        return this.repository.ListAll().then(response => {
-            if (response) {
-                this._baseResponse.success = true;
-                this._baseResponse.data = response;
-            }
-            else {
-                this._baseResponse.success = false;
-            }
-
-            return this._baseResponse;
-        }).catch(error => {
-            this._baseResponse.success = false;
-            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
-            return this._baseResponse;
-        });
+        return this.handleBaseResponse(this.repository.ListAll());
     }
 
     ListByID(id: number): Promise<BaseResponse> {
-
-        this._baseResponse = new BaseResponse();
-
-        return this.repository.listByID(id).then(response => {
-
-            if (response) {
-                this._baseResponse.success = true;
-                this._baseResponse.data = response;
-            }
-            else {
-                this._baseResponse.success = false;
-            }
-
-            return this._baseResponse;
-        }).catch(error => {
-            this._baseResponse.success = false;
-            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
-            return this._baseResponse;
-        });
+        return this.handleBaseResponse(this.repository.listByID(id));
     }
 
     Insert(model: T): Promise<BaseResponse> {
-        this._baseResponse = new BaseResponse();
-
-        return this.repository.Insert(model).then(response => {
-
-            if (response) {
-                this._baseResponse.success = true;
-                this._baseResponse.data = response;
-            }
-            else {
-                this._baseResponse.success = false;
-            }
-
-            return this._baseResponse;
-        }).catch(error => {
-            this._baseResponse.success = false;
-            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
-            return this._baseResponse;
-        });
+        return this.handleBaseResponse(this.repository.Insert(model));
     }
 
     Update(id: number, model: T): Promise<BaseResponse> {
-        this._baseResponse = new BaseResponse();
-
-        return this.repository.Update(id, model).then(response => {
-
-            if (response) {
-                this._baseResponse.success = true;
-                this._baseResponse.data = response;
-            }
-            else {
-                this._baseResponse.success = false;
-            }
-
-            return this._baseResponse;
-        }).catch(error => {
-            this._baseResponse.success = false;
-            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
-            return this._baseResponse;
-        });
+        return this.handleBaseResponse(this.repository.Update(id, model));
     }
 
     Delete(id: number): Promise<BaseResponse> {
-        this._baseResponse = new BaseResponse();
-
-        return this.repository.Delete(id).then(response => {
-
-            if (response) {
-                this._baseResponse.success = true;
-                this._baseResponse.data = response;
-            }
-            else {
-                this._baseResponse.success = false;
-            }
-
-            return this._baseResponse;
-        }).catch(error => {
-            this._baseResponse.success = false;
-            this._baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
-            return this._baseResponse;
-        });
+        return this.handleBaseResponse(this.repository.Delete(id));
     }
 
+    protected handleBaseResponse(promise: Promise<T | T[]>): Promise<BaseResponse>{
+        let baseResponse = new BaseResponse();
+
+        return promise.then(response => {
+
+            if (response) {
+               baseResponse.success = true;
+               baseResponse.data = response;
+            }
+            else {
+                baseResponse.success = false;
+            }
+
+            return baseResponse;
+        }).catch(error => {
+            baseResponse.success = false;
+            baseResponse.error = new ErrorResponse('SERVER_ERROR', error);
+            return baseResponse;
+        });
+    }
 }

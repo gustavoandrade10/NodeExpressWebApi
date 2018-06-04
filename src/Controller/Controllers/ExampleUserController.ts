@@ -1,13 +1,13 @@
 import { Response, Params, Controller, Get, Post, Body, Put, Delete } from '@decorators/express';
 import { BusinessFactory } from '../../Business/Factories/BusinessFactory';
+import { ExampleUserBusiness } from '../../Business/Rules/ExampleUserBusiness';
 import { ExampleUser } from '../../Models/Database/ExampleUser';
-import { IExampleUserBusiness } from '../../Business/Interfaces/IExampleUserBusiness';
 
 @Controller('/user')
 export class ExampleUserController{
 
   private businessFactory: BusinessFactory;
-  private currentBusinnes: IExampleUserBusiness;
+  private currentBusinnes: ExampleUserBusiness;
 
   constructor() {
     this.businessFactory = new BusinessFactory();

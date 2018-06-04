@@ -1,27 +1,25 @@
 import { BaseBusiness } from "./BaseBusiness";
-import { IExampleUserRepository } from "../../Repository/Interfaces/IExampleUserRepository";
-import { IExampleUserBusiness } from "../Interfaces/IExampleUserBusiness";
+import { ExampleUserRepository } from "../../Repository/Repositories/ExampleUserRepository";
 import { ExampleUser } from "../../Models/Database/ExampleUser";
 import { BaseResponse, ErrorResponse } from "../Utilities/BaseResponse";
 import JWToken from "../Extensions/JWToken";
 
-export class ExampleUserBusiness extends BaseBusiness<IExampleUserRepository, ExampleUser> implements IExampleUserBusiness {
+export class ExampleUserBusiness extends BaseBusiness<ExampleUserRepository, ExampleUser> {
 
-    constructor(private _repository: IExampleUserRepository) {
+    constructor(private _repository: ExampleUserRepository) {
         super(_repository);
     }
 
-
     async Authenticate(model: ExampleUser): Promise<BaseResponse> {
 
-        this._baseResponse = new BaseResponse();
+        let baseResponse = new BaseResponse();
 
         return this._repository.ListByEmail(model.email).then((response: ExampleUser) => {
             if (response) {
 
                 if (model.password != response.password) {
-                    this._baseResponse.success = false;
-                    this._baseResponse.error = new ErrorResponse('INVALID_PASSWORD', "Senha inválida");
+                    baseResponse.success = false;
+                    baseResponse.error = new ErrorResponse('INVALID_PASSWORD', "Senha inválida");
                 }
                 else {
 
@@ -33,19 +31,19 @@ export class ExampleUserBusiness extends BaseBusiness<IExampleUserRepository, Ex
                         }
                     });
 
-                    this._baseResponse.success = true;
-                    this._baseResponse.data = token;
+                    baseResponse.success = true;
+                    baseResponse.data = token;
                 }
             }
             else {
-                this._baseResponse.success = false;
+                baseResponse.success = false;
             }
 
-            return this._baseResponse;
+            return baseResponse;
         }).catch(error => {
 
-            this._baseResponse.success = false;
-            return this._baseResponse;
+            baseResponse.success = false;
+            return baseResponse;
         });
     }
 }

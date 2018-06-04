@@ -1,39 +1,27 @@
-import { IExampleProjectBusiness } from "../Interfaces/IExampleProjectBusiness";
-import { IExampleEmployeeBusiness } from "../Interfaces/IExampleEmployeeBusiness";
+import { IBusinessFactory } from "../Interfaces/IBusinessFactory";
 import { ExampleProjectBusiness } from "../Rules/ExampleProjectBusiness";
 import { ExampleProjectRepository } from "../../Repository/Repositories/ExampleProjectRepository";
 import { ExampleEmployeeBusiness } from "../Rules/ExampleEmployeeBusiness";
 import { ExampleEmployeeRepository } from "../../Repository/Repositories/ExampleEmployeeRepository";
-import { IBusinessFactory } from "../Interfaces/IBusinessFactory";
-import { IExampleUserBusiness } from "../Interfaces/IExampleUserBusiness";
 import { ExampleUserBusiness } from "../Rules/ExampleUserBusiness";
 import { ExampleUserRepository } from "../../Repository/Repositories/ExampleUserRepository";
 
 export class BusinessFactory implements IBusinessFactory {
-    private _iExampleProjectBusiness: IExampleProjectBusiness;
-    private _iExampleEmployeeBusiness: IExampleEmployeeBusiness;
-    private _iExampleUserBusiness: IExampleUserBusiness;
 
-    constructor(){}
+    constructor() { }
 
-    public GetExampleProjectBusiness(): IExampleProjectBusiness{
+    public GetExampleProjectBusiness(): ExampleProjectBusiness {
 
-        this._iExampleProjectBusiness = new ExampleProjectBusiness(new ExampleProjectRepository());
-
-        return this._iExampleProjectBusiness;
+        return new ExampleProjectBusiness(new ExampleProjectRepository());
     }
 
-    public GetExampleEmployeeBusiness(): IExampleEmployeeBusiness{
+    public GetExampleEmployeeBusiness(): ExampleEmployeeBusiness {
 
-        this._iExampleEmployeeBusiness = new ExampleEmployeeBusiness(new ExampleEmployeeRepository());
-
-        return this._iExampleEmployeeBusiness;
+        return new ExampleEmployeeBusiness(new ExampleEmployeeRepository());
     }
 
-    public GetExampleUserBusiness(): IExampleUserBusiness{
+    public GetExampleUserBusiness(): ExampleUserBusiness {
 
-        this._iExampleUserBusiness = new ExampleUserBusiness(new ExampleUserRepository());
-
-        return this._iExampleUserBusiness;
+        return new ExampleUserBusiness(new ExampleUserRepository());
     }
 }

@@ -1,33 +1,16 @@
-import { ExampleProject } from "../../Models/Database/ExampleProject";
 import { BaseBusiness } from "./BaseBusiness";
+import { ExampleProjectRepository } from "../../Repository/Repositories/ExampleProjectRepository";
+import { ExampleProject } from "../../Models/Database/ExampleProject";
 import { BaseResponse } from "../Utilities/BaseResponse";
-import { IExampleProjectBusiness } from "../Interfaces/IExampleProjectBusiness";
-import { IExampleProjectRepository } from "../../Repository/Interfaces/IExampleProjectRepository";
 
-export class ExampleProjectBusiness extends BaseBusiness<IExampleProjectRepository, ExampleProject> implements IExampleProjectBusiness {
+export class ExampleProjectBusiness extends BaseBusiness<ExampleProjectRepository, ExampleProject> {
 
-    constructor(private _repository: IExampleProjectRepository) {
+    constructor(private _repository: ExampleProjectRepository) {
         super(_repository);
     }
 
     ListAllProjectsWithManager(): Promise<BaseResponse> {
-        this._baseResponse = new BaseResponse();
-
-        return this._repository.ListAllProjectsWithManager().then(response => {
-            if (response) {
-                this._baseResponse.success = true;
-                this._baseResponse.data = response;
-            }
-            else {
-                this._baseResponse.success = false;
-            }
-
-            return this._baseResponse;
-        }).catch(error => {
-
-            this._baseResponse.success = false;
-            return this._baseResponse;
-        });
+        return this.handleBaseResponse(this._repository.ListAllProjectsWithManager());
     }
 
 }
