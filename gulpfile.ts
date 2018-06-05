@@ -43,8 +43,8 @@ export class Gulpfile {
     copySourceFiles(cb: Function) {
          this.swagger.generate((success) => {
             gulp.src('./src/**/**.json')
-                .pipe(gulp.dest('./build/'));
-                cb();
+                .pipe(gulp.dest('./build/'))
+                .on('end', () => cb());
         });     
     }
 

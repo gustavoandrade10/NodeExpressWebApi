@@ -15,7 +15,8 @@
         "suppressImplicitAnyIndexErrors": true,
     },
     "include": [
-        "./src/**/*"
+        "./src/**/*",
+        "./gulpfile.ts"
     ],
     "exclude": [
         "node_modules"
