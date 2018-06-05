@@ -11,7 +11,7 @@ A Node Express Web Api (NEWA) using [Typescript](https://www.typescriptlang.org/
 
 Then install gulp and [NEWA-CLI](https://github.com/TalissonJunior/newa-cli).
 ```sh
-npm install gulp-cli --g
+npm install gulp-cli -g
 
 npm install newa -g
 ```
