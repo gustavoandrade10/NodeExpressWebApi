@@ -17,12 +17,6 @@ npm install newa -g
 Check [NEWA-CLI docs](https://github.com/TalissonJunior/newa-cli) to create project and generate classes.
 
 
-### Resources (available just for example project).
-
-You can find a dump file of the database and postman resources that were used in this project on **"resources/"** folder.
-
-Just import them and you are good to go.
-
 ### Third party libraries
 
 Besides the frameworks mentioned above, some typescript libraries were used. 
