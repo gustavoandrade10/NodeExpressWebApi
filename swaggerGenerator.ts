@@ -1,39 +1,43 @@
-const SWAGGERCONFIG = require('./swagger.config');
-const path = require('path');
-const fs = require('fs');
-const readline = require('readline');
-const stream = require('stream');
+import { SWAGGERCONFIG } from './swagger.config';
+import * as path from 'path';
+import * as fs from 'fs';
+import * as readline from 'readline';
+import * as stream from 'stream';
 
-class SwaggerGenerator {
+export class SwaggerGenerator {
+
+    decorators = {
+        param: '@Params(',
+        body: '@Body()',
+        controller: '@Controller(',
+        get: '@Get(',
+        post: '@Post(',
+        update: '@Put(',
+        delete: '@Delete(',
+        description: '@description'
+    }
+
+    baseDecoratorsHelpers = {
+        '@Get(': 'get', '@Post(': 'post',
+        '@Put(': 'put', '@Delete(': 'delete'
+    }
+
+    hasAuthorize: boolean;
+    swagger;
+
+    // Array to hold the models definitions, it will remove the modelName
+    // if controllers uses that model as part of @Body decorator
+    modelsDefinitionsNames: string[] = [];
 
     constructor() {
-        this.decorators = {
-            param: '@Params(',
-            body: '@Body()',
-            controller: '@Controller(',
-            get: '@Get(',
-            post: '@Post(',
-            update: '@Put(',
-            delete: '@Delete(',
-            description: '@description'
-        }
-        this.baseDecoratorsHelpers = {
-            '@Get(': 'get', '@Post(': 'post',
-            '@Put(': 'put', '@Delete(': 'delete'
-        }
-
         this.hasAuthorize = false;
         this.swagger = SWAGGERCONFIG.swaggerDefinition;
         this.swagger.tags = [];
         this.swagger.paths = {};
         this.swagger.definitions = {};
-
-        // Array to hold the models definitions, it will remove the modelName
-        // if controllers uses that model as part of @Body decorator
-        this.modelsDefinitionsNames = [];
     }
 
-    generate(callback) {
+    generate(callback: Function): void {
 
         try {
             this.createModelDefinitions(() => {
@@ -41,13 +45,13 @@ class SwaggerGenerator {
                 let controllersFolderPath = path.join(process.cwd(), SWAGGERCONFIG.controllersFolderPath);
 
                 if (fs.existsSync(controllersFolderPath)) {
-                    fs.readdir(controllersFolderPath, (err, filenames) => {
+                    fs.readdir(controllersFolderPath, (err: NodeJS.ErrnoException, filenames: string[]) => {
                         if (err) {
                             this.onError(err);
                             return;
                         }
 
-                        filenames.forEach((filename, index) => {
+                        filenames.forEach((filename: string, index: number) => {
 
                             this.processFile(controllersFolderPath + filename, (response) => {
 
@@ -58,7 +62,7 @@ class SwaggerGenerator {
                                         delete this.swagger.definitions[modelname];
                                     });
 
-                                    fs.writeFile(path.join(process.cwd(), SWAGGERCONFIG.outputFile), JSON.stringify(this.swagger), { flag: 'w' }, (err) => {
+                                    fs.writeFile(path.join(process.cwd(), SWAGGERCONFIG.outputFile), JSON.stringify(this.swagger), { flag: 'w' }, (err: NodeJS.ErrnoException) => {
                                         if (err) {
                                             console.log('Could not generate swagger docs.');
                                             return false;
@@ -88,16 +92,16 @@ class SwaggerGenerator {
      * @param {string} inputFile 
      * @param {Function} callback 
      */
-    processFile(inputFile, callback) {
+    processFile(inputFile: string, callback: Function): void {
 
         let instream = fs.createReadStream(inputFile),
             rl = readline.createInterface(instream, new stream.Writable);
 
-        let mainRoutePath = '';
-        let arrayOfLinesForDecorator = []; // Contains all lines information for a specific route
-        let currentDecorator = ''; // the current decorator that is being getting information from.
+        let mainRoutePath: string = '';
+        let arrayOfLinesForDecorator: string[] = []; // Contains all lines information for a specific route
+        let currentDecorator: string = ''; // the current decorator that is being getting information from.
 
-        rl.on('line', (line) => {
+        rl.on('line', (line: string) => {
 
             // Will add another line after enter decorator
             if (arrayOfLinesForDecorator.length > 0) {
@@ -135,7 +139,7 @@ class SwaggerGenerator {
 
         });
 
-        rl.on('close', (line) => {
+        rl.on('close', () => {
             callback(true);
         });
     }
@@ -145,7 +149,7 @@ class SwaggerGenerator {
      * @returns string
      * @param {string} line 
      */
-    createSwaggerTags(line) {
+    createSwaggerTags(line: string): string {
 
         let controllerRoute = line.substr(line.indexOf(this.decorators.controller));
         controllerRoute = controllerRoute.substring(12, controllerRoute.indexOf(')')); //@Controller <-- 12 caracters
@@ -184,11 +188,11 @@ class SwaggerGenerator {
      * @param {string} decorator 
      * @param {string} mainRoutePath 
      */
-    async createPath(arrayOfLinesForDecorator, decorator, mainRoutePath) {
+    async createPath(arrayOfLinesForDecorator: string[], decorator: string, mainRoutePath: string) {
 
         let hasAuthentication = this.hasAuthorize;
         let routeName = '';
-        let params = [];
+        let params: Object[] = [];
         let summary = '';
         await arrayOfLinesForDecorator.forEach(line => {
 
@@ -261,7 +265,7 @@ class SwaggerGenerator {
                     let bodyPropertyType = bodyLine.substr(bodyLine.indexOf(':')).replace(/[:;){]/g, "").trim();
 
                     // Removes the models that are in use.
-                    var index = this.modelsDefinitionsNames.indexOf(bodyPropertyType);
+                    var index: number = this.modelsDefinitionsNames.indexOf(bodyPropertyType);
                     if (index !== -1) {
                         this.modelsDefinitionsNames.splice(index, 1);
                     }
@@ -340,18 +344,18 @@ class SwaggerGenerator {
      * @returns void
      * @param {Function} callback 
      */
-    createModelDefinitions(callback) {
+    createModelDefinitions(callback: Function): void {
 
         let modelsFolderPath = path.join(process.cwd(), SWAGGERCONFIG.modelsFolderPath);
 
         if (fs.existsSync(modelsFolderPath)) {
-            fs.readdir(modelsFolderPath, (err, filenames) => {
+            fs.readdir(modelsFolderPath, (err: NodeJS.ErrnoException, filenames: string[]) => {
                 if (err) {
                     this.onError(err);
                     return;
                 }
 
-                filenames.forEach((filename, index) => {
+                filenames.forEach((filename: string, index: number) => {
 
                     this.processModelFiles(modelsFolderPath + filename, (response) => {
 
@@ -373,7 +377,7 @@ class SwaggerGenerator {
      * @param {string} inputFile 
      * @param {Function} callback 
      */
-    processModelFiles(inputFile, callback) {
+    processModelFiles(inputFile: string, callback: Function): void {
 
         let instream = fs.createReadStream(inputFile),
             rl = readline.createInterface(instream, new stream.Writable);
@@ -383,7 +387,7 @@ class SwaggerGenerator {
         let isSearchingForColumnBracketsEnd = false, foundProperty = false;
         let hideProperty = false;
 
-        rl.on('line', (line) => {
+        rl.on('line', (line: string) => {
 
             if (line.indexOf(classTag) > -1) {
                 modelName = line.substr(line.indexOf(classTag));
@@ -439,7 +443,7 @@ class SwaggerGenerator {
 
         });
 
-        rl.on('close', (line) => {
+        rl.on('close', () => {
             callback(true);
         });
     }
@@ -449,7 +453,7 @@ class SwaggerGenerator {
      * @returns void
      * @param {NodeJS.ErrnoException} err 
      */
-    onError(err) {
+    onError(err: NodeJS.ErrnoException): void {
         console.log('Could not find docs folder for swagger docs.');
     }
 
@@ -458,9 +462,7 @@ class SwaggerGenerator {
      * @returns string
      * @param {string} name 
      */
-    capitalizeName(name) {
+    capitalizeName(name: string): string {
         return name.replace(/\b(\w)/g, s => s.toUpperCase());
     }
 }
-
-module.exports = new SwaggerGenerator();
