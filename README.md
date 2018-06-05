@@ -2,21 +2,21 @@
 
 A Node Express Web Api (NEWA) using [Typescript](https://www.typescriptlang.org/) and [Sequelize](http://docs.sequelizejs.com/) *( [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript)).
 
-# Installation
+# Usage
 
  Node.js 
  
 >Install [Node.js](https://nodejs.org/), recomended to download any stable version above 8.11.1
 
 
-Then install gulp and [NEWA CLI](https://github.com/TalissonJunior/newa-cli).
+Then install gulp and [NEWA-CLI](https://github.com/TalissonJunior/newa-cli).
 ```sh
 npm install gulp-cli --g
 
 npm install newa -g
 ```
 
-Check [NEWA-CLI docs](https://github.com/TalissonJunior/newa-cli) to create a project and generate classes.
+Check [NEWA-CLI docs](https://github.com/TalissonJunior/newa-cli) to create project and generate classes.
 
 
 ### Resources (available just for example project).
