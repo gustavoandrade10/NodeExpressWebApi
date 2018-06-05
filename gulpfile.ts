@@ -10,7 +10,7 @@ import { SwaggerGenerator } from './swaggerGenerator';
 export class Gulpfile {
 
     private tsProjectBuild;
-    private swagger =  new SwaggerGenerator();
+    private swagger = new SwaggerGenerator();
     constructor() {
         this.tsProjectBuild = ts.createProject("tsconfig.json");
     }

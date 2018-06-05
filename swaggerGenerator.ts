@@ -6,7 +6,7 @@ import * as stream from 'stream';
 
 export class SwaggerGenerator {
 
-    decorators = {
+    private decorators = {
         param: '@Params(',
         body: '@Body()',
         controller: '@Controller(',
@@ -17,17 +17,17 @@ export class SwaggerGenerator {
         description: '@description'
     }
 
-    baseDecoratorsHelpers = {
+    private baseDecoratorsHelpers = {
         '@Get(': 'get', '@Post(': 'post',
         '@Put(': 'put', '@Delete(': 'delete'
     }
 
-    hasAuthorize: boolean;
-    swagger;
+    private hasAuthorize: boolean;
+    private swagger;
 
     // Array to hold the models definitions, it will remove the modelName
     // if controllers uses that model as part of @Body decorator
-    modelsDefinitionsNames: string[] = [];
+    private modelsDefinitionsNames: string[] = [];
 
     constructor() {
         this.hasAuthorize = false;
@@ -86,13 +86,8 @@ export class SwaggerGenerator {
         }
     }
 
-    /**
-     * private method
-     * @returns void
-     * @param {string} inputFile 
-     * @param {Function} callback 
-     */
-    processFile(inputFile: string, callback: Function): void {
+  
+    private processFile(inputFile: string, callback: Function): void {
 
         let instream = fs.createReadStream(inputFile),
             rl = readline.createInterface(instream, new stream.Writable);
@@ -144,12 +139,7 @@ export class SwaggerGenerator {
         });
     }
 
-    /**
-     * private field
-     * @returns string
-     * @param {string} line 
-     */
-    createSwaggerTags(line: string): string {
+    private createSwaggerTags(line: string): string {
 
         let controllerRoute = line.substr(line.indexOf(this.decorators.controller));
         controllerRoute = controllerRoute.substring(12, controllerRoute.indexOf(')')); //@Controller <-- 12 caracters
@@ -181,14 +171,7 @@ export class SwaggerGenerator {
         return controllerRoute;
     }
 
-    /**
-     * private asycn method
-     * @returns void
-     * @param {string[]} arrayOfLinesForDecorator 
-     * @param {string} decorator 
-     * @param {string} mainRoutePath 
-     */
-    async createPath(arrayOfLinesForDecorator: string[], decorator: string, mainRoutePath: string) {
+    private async createPath(arrayOfLinesForDecorator: string[], decorator: string, mainRoutePath: string) {
 
         let hasAuthentication = this.hasAuthorize;
         let routeName = '';
@@ -339,12 +322,7 @@ export class SwaggerGenerator {
 
     }
 
-    /**
-     * private method
-     * @returns void
-     * @param {Function} callback 
-     */
-    createModelDefinitions(callback: Function): void {
+    private createModelDefinitions(callback: Function): void {
 
         let modelsFolderPath = path.join(process.cwd(), SWAGGERCONFIG.modelsFolderPath);
 
@@ -370,14 +348,7 @@ export class SwaggerGenerator {
         }
     }
 
-
-    /**
-     * private method
-     * @returns void
-     * @param {string} inputFile 
-     * @param {Function} callback 
-     */
-    processModelFiles(inputFile: string, callback: Function): void {
+    private processModelFiles(inputFile: string, callback: Function): void {
 
         let instream = fs.createReadStream(inputFile),
             rl = readline.createInterface(instream, new stream.Writable);
@@ -448,21 +419,11 @@ export class SwaggerGenerator {
         });
     }
 
-    /**
-     * private method
-     * @returns void
-     * @param {NodeJS.ErrnoException} err 
-     */
-    onError(err: NodeJS.ErrnoException): void {
+    private onError(err: NodeJS.ErrnoException): void {
         console.log('Could not find docs folder for swagger docs.');
     }
 
-    /**
-     * private method
-     * @returns string
-     * @param {string} name 
-     */
-    capitalizeName(name: string): string {
+    private capitalizeName(name: string): string {
         return name.replace(/\b(\w)/g, s => s.toUpperCase());
     }
 }
