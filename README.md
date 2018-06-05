@@ -9,10 +9,8 @@ A Node Express Web Api (NEWA) using [Typescript](https://www.typescriptlang.org/
 >Install [Node.js](https://nodejs.org/), recomended to download any stable version above 8.11.1
 
 
-Then install gulp and [NEWA-CLI](https://github.com/TalissonJunior/newa-cli).
+and then install [NEWA-CLI](https://github.com/TalissonJunior/newa-cli) globally by typing:
 ```sh
-npm install gulp-cli -g
-
 npm install newa -g
 ```
 
