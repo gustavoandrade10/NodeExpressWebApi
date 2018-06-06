@@ -3,7 +3,8 @@
 
 # remove auto generated files.
 /node_modules
-/build
+/.temp
+/dist
 
-# errors
+# log errors
 yarn-error.log

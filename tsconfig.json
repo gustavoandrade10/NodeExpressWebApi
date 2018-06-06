@@ -1,12 +1,11 @@
 {
     "compilerOptions": {
-        "outDir": "./build/",
+        "outDir": "./temp/",
         "module": "commonjs",
         "target": "es6",
         "sourceMap": true,
         "strictNullChecks": true,
-        "pretty": true,
-        "lib": ["es2017"],
+        "lib": ["ES2017", "ES2015"],
         "allowJs": true,
         "removeComments": false,
         "experimentalDecorators": true,
@@ -16,7 +15,7 @@
     },
     "include": [
         "./src/**/*",
-        "./gulpfile.ts"
+        "./*.ts"
     ],
     "exclude": [
         "node_modules"
